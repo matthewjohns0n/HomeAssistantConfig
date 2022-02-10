@@ -25,6 +25,7 @@
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater Current Temperature Sensor 2"
@@ -32,6 +33,7 @@
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater Current Temperature of Body"
@@ -39,6 +41,7 @@
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater Desired Temperature"
@@ -46,6 +49,7 @@
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater Input Voltage"
@@ -54,6 +58,7 @@
   value_template: "{{ value }}"
   icon: mdi:lightning-bolt
   device_class: voltage
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater GlowPlug Voltage"
@@ -62,6 +67,7 @@
   value_template: "{{ value }}"
   icon: mdi:lightning-bolt
   device_class: voltage
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater GlowPlug Current"
@@ -69,6 +75,7 @@
   unit_of_measurement: 'A'
   value_template: "{{ value }}"
   device_class: current
+  state_class: measurement
 
 - platform: mqtt
   name: "Heater Fuel Usage"
@@ -105,6 +112,7 @@
   value_template: "{% if (value_json.Humidity is defined) %}{{value_json.Humidity}}{% else %}{{states.sensor.heater_relative_humidity.state}}{% endif %}"
   icon: mdi:water-percent
   device_class: humidity
+  state_class: measurement
 
 - platform: mqtt
   state_topic: "AfterburnerD014E4/JSONout"
@@ -120,4 +128,5 @@
   value_template: "{% if (value_json.Pressure is defined) %}{{value_json.Pressure}}{% else %}{{states.sensor.heater_pressure.state}}{% endif %}"
   icon: mdi:weather-windy-variant
   device_class: pressure
+  state_class: measurement
 
