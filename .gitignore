@@ -11,3 +11,8 @@
 # Unignore the config directory where all of our other configs reside
 !/config
 !/config/**/*
+
+# Unignore the rtl_433 directory
+!/rtl_433
+!/rtl_433/**/*
+
