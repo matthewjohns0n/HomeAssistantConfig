@@ -67,7 +67,7 @@
 - platform: mqtt
   name: "Total Power Usage"
   state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Power"
-  unit_of_measurement: 'Watts'
+  unit_of_measurement: 'W'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:lightning-bolt
   device_class: power
