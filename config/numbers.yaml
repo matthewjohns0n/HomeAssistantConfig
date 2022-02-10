@@ -4,7 +4,7 @@
   state_topic: "venus-home/N/b827ebb94e80/vebus/288/Ac/In/1/CurrentLimit"
   unique_id: "280_1"
   unit_of_measurement: "A"
-  value_template: "{{ value_json.value }}"
+  value_template: "{{ value_json.value | float(0) }}"
   min: 0
   max: 15
   step: 0.5
