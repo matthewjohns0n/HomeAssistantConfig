@@ -1,0 +1,30 @@
+# How to split up config:
+# https://siytek.com/how-to-split-home-assistant-configuration/
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Includes
+automation manual:     !include_dir_merge_list config/automations/
+binary_sensor:         !include_dir_merge_list config/binary_sensors/
+group:                 !include_dir_merge_list config/groups/
+scene:                 !include_dir_merge_list config/scenes/
+script:                !include_dir_merge_named config/scripts/
+sensor:                !include_dir_merge_list config/sensors/
+switch:                !include_dir_merge_list config/switch/
+template:              !include_dir_merge_list config/template/
+
+# Customize home assistant
+homeassistant:
+  customize: !include config/customize.yaml
+
+# Single file includes
+climate: !include config/climate.yaml
+number: !include config/numbers.yaml
+
+# Include config settings:
+tts: !include config/settings/tts.yaml
+influxdb: !include config/settings/influxdb.yaml
+
+# For Automations I create in the UI
+automation ui: !include automations.yaml

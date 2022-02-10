@@ -1,0 +1,13 @@
+# Ignore everything
+/**
+
+# Unignore this file
+!/.gitignore
+
+# Unignore a couple top-level config files
+!configuration.yaml
+!automations.yaml
+
+# Unignore the config directory where all of our other configs reside
+!/config
+!/config/**/*

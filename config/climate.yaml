@@ -1,0 +1,9 @@
+# Thermostat for controlling the heater
+- platform: generic_thermostat
+  name: Heater Thermostat
+  heater: switch.heater_thermostat_on_off
+  target_sensor: sensor.heater_current_temperature
+  min_cycle_duration:
+    minutes: 6
+  ac_mode: false
+  initial_hvac_mode: "off"

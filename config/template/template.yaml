@@ -1,0 +1,12 @@
+# Shows us all unavailable entities
+- sensor:
+  - name: 'Unavailable entities'
+    unique_id: 'unavailable_entities'
+    state: >-
+        {{ states.sensor | selectattr('state', '==', 'unavailable') | list | count }}
+    unit_of_measurement: 'entities'
+    attributes:
+      entities: >-
+        {{ states.sensor | selectattr('state', '==', 'unavailable')
+          | map(attribute='entity_id')
+          | list| join(', ') }}

@@ -1,0 +1,41 @@
+# Binary Sensor to tell us if the battery is charging or discharging
+- platform: template
+  sensors:
+    charging:
+      friendly_name: Charging
+      icon_template: >-
+        {% if is_state('binary_sensor.charging', True) %}
+          mdi:car-electric
+        {% else %}
+          mdi:car-electric-outline
+        {% endif %}
+      value_template: "{{ states('sensor.total_power_usage') | float(0) > 0 }}"
+      device_class: battery_charging
+
+# Binary Sensor to tell us if the battery is plugged into AC power
+- platform: template
+  sensors:
+    charging_shore_power:
+      friendly_name: Charging Shore Power
+      icon_template: >-
+        {% if is_state('binary_sensor.charging_shore_power', True) %}
+          mdi:power-plug
+        {% else %}
+          mdi:power-plug-outline
+        {% endif %}
+      value_template: "{{ states('sensor.shore_power_in') | float(0) > 0 }}"
+      device_class: battery_charging
+
+# Binary Sensor to tell us if we are getting solar
+- platform: template
+  sensors:
+    charging_solar:
+      friendly_name: Charging Solar
+      icon_template: >-
+        {% if is_state('binary_sensor.charging_solar', True) %}
+          mdi:weather-sunny
+        {% else %}
+          mdi:weather-sunny-off
+        {% endif %}
+      value_template: "{{ states('sensor.solar_power') | float(0) > 0 }}"
+      device_class: battery_charging
