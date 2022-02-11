@@ -11,5 +11,5 @@ output mqtt://${host}:${port},user=${username},pass=${password},retain=${retain}
 convert     si
 report_meta newmodel
 
-frequency   315M
-# frequency   433.92M
+# frequency   315M
+frequency   433.92M
