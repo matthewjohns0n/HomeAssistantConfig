@@ -1,0 +1,12 @@
+- sensor:
+    - name: "Inverter Status"
+      state: >-
+        {% if is_state('sensor.inverter_mode', '1') %}
+          Charger only
+        {% elif is_state('sensor.inverter_mode', '2') %}
+          Inverter only
+        {% elif is_state('sensor.inverter_mode', '3') %}
+          On
+        {% else %}
+          Off
+        {% endif %}

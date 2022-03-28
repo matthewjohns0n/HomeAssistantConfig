@@ -25,7 +25,16 @@
   state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Pv/Power"
   unit_of_measurement: 'W'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
-  icon: mdi:solar-panel
+  icon: mdi:weather-sunny
+  device_class: power
+  state_class: measurement
+
+- platform: mqtt
+  name: "Solar Power kW"
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Pv/Power"
+  unit_of_measurement: 'kW'
+  value_template: "{{ value_json.value | float(0) * 0.001 }}"
+  icon: mdi:weather-sunny
   device_class: power
   state_class: measurement
 
@@ -41,15 +50,21 @@
   state_class: measurement
 
 # This topic contains other things like F (hz), I (amps), V (volts)
-# venus-home/N/b827ebb94e80/vebus/288/Ac/ActiveIn/#
+# venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/#
 - platform: mqtt
   name: "Shore Power In"
-  state_topic: "venus-home/N/b827ebb94e80/vebus/288/Ac/ActiveIn/P"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/P"
   unit_of_measurement: 'W'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:power-plug
   device_class: power
   state_class: measurement
+
+- platform: mqtt
+  name: "Inverter Mode"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Mode"
+  icon: mdi:power-plug
+  value_template: "{{ value_json.value | int }}"
 
 # DC
 
@@ -80,6 +95,7 @@
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:battery-high
   device_class: battery
+  state_class: measurement
 
 - platform: mqtt
   name: "Battery Voltage"
@@ -92,7 +108,8 @@
 
 - platform: mqtt
   name: "Battery Time Remaining"
-  icon: mdi:battery-clock
+  icon: mdi:clock
+  # icon: mdi:battery-clock
   state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/TimeToGo"
   value_template: >-
           {% if (value_json.value is defined) %}
@@ -139,3 +156,37 @@
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
+
+- platform: mqtt
+  name: "Shunt Temperature"
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Temperature"
+  unit_of_measurement: '°C'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  device_class: temperature
+  state_class: measurement
+
+- platform: mqtt
+  name: "Multiplus Temperature"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Dc/0/Temperature"
+  unit_of_measurement: '°C'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  device_class: temperature
+  state_class: measurement
+
+# Power Sums:
+
+- platform: integration
+  name: "Solar Power In"
+  source: sensor.solar_power
+
+- platform: integration
+  name: "DC Loads Total"
+  source: sensor.dc_loads
+
+- platform: integration
+  name: "Shore Power In Total"
+  source: sensor.shore_power_in
+
+- platform: integration
+  name: "AC Loads Total"
+  source: sensor.ac_loads

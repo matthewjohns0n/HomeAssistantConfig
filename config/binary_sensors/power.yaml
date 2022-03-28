@@ -39,3 +39,18 @@
         {% endif %}
       value_template: "{{ states('sensor.solar_power') | float(0) > 0 }}"
       device_class: battery_charging
+
+# Binary Sensor to tell us if inverter is on
+- platform: template
+  sensors:
+    multiplus_inverter_is_on:
+      friendly_name: Multiplus Inverter On
+      value_template: "{{ is_state('sensor.inverter_mode', '2') or is_state('sensor.inverter_mode', '3') }}"
+
+
+# Binary Sensor to tell us if charger is on
+- platform: template
+  sensors:
+    multiplus_charger_is_on:
+      friendly_name: Multiplus Charger On
+      value_template: "{{ is_state('sensor.inverter_mode', '1') or is_state('sensor.inverter_mode', '3') }}"
