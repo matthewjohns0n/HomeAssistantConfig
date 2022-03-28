@@ -1,12 +1,12 @@
 # Shows the AC Current limit and maps a number field to control it over MQTT
 - platform: mqtt
   name: "Max Input Current"
-  state_topic: "venus-home/N/b827ebb94e80/vebus/288/Ac/In/1/CurrentLimit"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Ac/In/1/CurrentLimit"
   unique_id: "280_1"
   unit_of_measurement: "A"
   value_template: "{{ value_json.value | float(0) }}"
   min: 0
   max: 15
   step: 0.5
-  command_topic: "venus-home/W/b827ebb94e80/vebus/288/Ac/In/1/CurrentLimit"
+  command_topic: "venus-home/W/b827ebb94e80/vebus/289/Ac/In/1/CurrentLimit"
   command_template: '{"value" : "{{value}}"}'
