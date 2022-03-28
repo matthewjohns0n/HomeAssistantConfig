@@ -1,0 +1,145 @@
+tires:
+  - id: 169B99D
+    location: Front Right
+  - id: 170C10B
+    location: Front Left
+  - id: 169BBFC
+    location: Back Right
+  - id: 170C1B1
+    location: Back Left
+  - id: 169A659
+    location: Spare
+
+entities:
+    - name: Pressure kPa
+      identifier: P
+      unit_of_measurement: kPa
+      topic_segment: pressure_kPa
+      value_template: "{{ value|float }}"
+      device_class: pressure
+      state_class: measurement
+    - name: Pressure PSI
+      identifier: PPSI
+      unit_of_measurement: psi
+      topic_segment: pressure_kPa
+      value_template: "{{ (value|float / 6.89475729) | round(1) }}"
+      device_class: pressure
+      state_class: measurement
+    - name: Temperature
+      identifier: T
+      unit_of_measurement: °C
+      topic_segment: temperature_C
+      value_template: "{{ value|float }}"
+      device_class: temperature
+      state_class: measurement
+    - name: Time
+      identifier: UTC
+      topic_segment: time
+      value_template: "{{ value|float }}"
+      device_class: timestamp
+      state_class: measurement
+    - name: Flag
+      identifier: F
+      topic_segment: flags
+      icon:  mdi:flag
+      value_template: "{{ value|int }}"
+
+# To Json:
+# {
+#   "tires": [
+#     {
+#       "id": "169B99D",
+#       "location": "Front Right"
+#     },
+#     {
+#       "id": "170C10B",
+#       "location": "Front Left"
+#     },
+#     {
+#       "id": "169BBFC",
+#       "location": "Back Right"
+#     },
+#     {
+#       "id": "170C1B1",
+#       "location": "Back Left"
+#     },
+#     {
+#       "id": "169A659",
+#       "location": "Spare"
+#     }
+#   ],
+#   "entities": [
+#     {
+#       "name": "Pressure kPa",
+#       "identifier": "P",
+#       "unit_of_measurement": "kPa",
+#       "topic_segment": "pressure_kPa",
+#       "value_template": "{{ value|float }}",
+#       "device_class": "pressure",
+#       "state_class": "measurement"
+#     },
+#     {
+#       "name": "Pressure PSI",
+#       "identifier": "PPSI",
+#       "unit_of_measurement": "psi",
+#       "topic_segment": "pressure_kPa",
+#       "value_template": "{{ (value|float / 6.89475729) | round(1) }}",
+#       "device_class": "pressure",
+#       "state_class": "measurement"
+#     },
+#     {
+#       "name": "Temperature",
+#       "identifier": "T",
+#       "unit_of_measurement": "°C",
+#       "topic_segment": "temperature_C",
+#       "value_template": "{{ value|float }}",
+#       "device_class": "temperature",
+#       "state_class": "measurement"
+#     },
+#     {
+#       "name": "Time",
+#       "identifier": "UTC",
+#       "topic_segment": "time",
+#       "value_template": "{{ value|float }}",
+#       "device_class": "timestamp",
+#       "state_class": "measurement"
+#     },
+#     {
+#       "name": "Flag",
+#       "identifier": "F",
+#       "topic_segment": "flags",
+#       "icon": "mdi:flag",
+#       "value_template": "{{ value|int }}"
+#     }
+#   ]
+# }
+
+
+
+# Tires:
+# Topic:
+    # rtl_433/9b13b3f4-rtl433/devices/TPMS/Schrader/#
+
+# 5 tires:
+    # 169B99D
+      # front b/c power pressure
+    # 170C10B
+      # front b/c power pressure
+    # 169BBFC
+      # back
+    # 170C1B1
+      #  back
+    # 169A659
+      # Might be the spare? last to show up after driving
+      # Another reason this is the spare: the flag stays at 4 while driving
+
+# Attributes:
+    # time
+    # flags
+    # id
+    # pressure_kPa
+    # temperature_C
+    # mic
+
+# kPa to PSI:
+    # psi = kPa ÷ 6.89475729
