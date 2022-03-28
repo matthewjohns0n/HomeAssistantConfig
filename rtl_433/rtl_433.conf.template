@@ -10,6 +10,11 @@ output mqtt://${host}:${port},user=${username},pass=${password},retain=${retain}
 
 convert     si
 report_meta newmodel
+report_meta time:iso:tz:local
 
 # frequency   315M
 frequency   433.92M
+
+# This is the RAM Promaster TPMS.
+# I have it commented out because I'm still interested in seeing other signals around me
+# protocol 60
