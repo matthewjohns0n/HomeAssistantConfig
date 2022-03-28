@@ -1,5 +1,6 @@
 # HEATER entities
 
+# Thermostat status
 - platform: mqtt
   name: "Heater Thermostat Status"
   state_topic: "AfterburnerD014E4/status"
@@ -9,19 +10,19 @@
 
 - platform: mqtt
   name: "Heater Thermostat Run 01"
-  state_topic: "AfterburnerD014E4/sts/Run"
+  state_topic: "AfterburnerD014E4/stsRetained/Run"
   value_template: "{{ value }}"
   icon: mdi:state-machine
 
 - platform: mqtt
   name: "Heater Thermostat Run State"
-  state_topic: "AfterburnerD014E4/sts/RunString"
+  state_topic: "AfterburnerD014E4/stsRetained/RunString"
   value_template: "{{ value }}"
   icon: mdi:state-machine
 
 - platform: mqtt
   name: "Heater Current Temperature"
-  state_topic: "AfterburnerD014E4/sts/TempCurrent"
+  state_topic: "AfterburnerD014E4/stsRetained/TempCurrent"
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
@@ -29,7 +30,7 @@
 
 - platform: mqtt
   name: "Heater Current Temperature Sensor 2"
-  state_topic: "AfterburnerD014E4/sts/Temp2Current"
+  state_topic: "AfterburnerD014E4/stsRetained/Temp2Current"
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
@@ -37,7 +38,7 @@
 
 - platform: mqtt
   name: "Heater Current Temperature of Body"
-  state_topic: "AfterburnerD014E4/sts/TempBody"
+  state_topic: "AfterburnerD014E4/stsRetained/TempBody"
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
@@ -45,7 +46,7 @@
 
 - platform: mqtt
   name: "Heater Desired Temperature"
-  state_topic: "AfterburnerD014E4/sts/TempDesired"
+  state_topic: "AfterburnerD014E4/stsRetained/TempDesired"
   unit_of_measurement: '°C'
   value_template: "{{ value }}"
   device_class: temperature
@@ -53,7 +54,7 @@
 
 - platform: mqtt
   name: "Heater Input Voltage"
-  state_topic: "AfterburnerD014E4/sts/InputVoltage"
+  state_topic: "AfterburnerD014E4/stsRetained/InputVoltage"
   unit_of_measurement: 'V'
   value_template: "{{ value }}"
   icon: mdi:lightning-bolt
@@ -62,7 +63,7 @@
 
 - platform: mqtt
   name: "Heater GlowPlug Voltage"
-  state_topic: "AfterburnerD014E4/sts/GlowVoltage"
+  state_topic: "AfterburnerD014E4/stsRetained/GlowVoltage"
   unit_of_measurement: 'V'
   value_template: "{{ value }}"
   icon: mdi:lightning-bolt
@@ -71,7 +72,7 @@
 
 - platform: mqtt
   name: "Heater GlowPlug Current"
-  state_topic: "AfterburnerD014E4/sts/GlowCurrent"
+  state_topic: "AfterburnerD014E4/stsRetained/GlowCurrent"
   unit_of_measurement: 'A'
   value_template: "{{ value }}"
   device_class: current
@@ -79,53 +80,53 @@
 
 - platform: mqtt
   name: "Heater Fuel Usage"
-  state_topic: "AfterburnerD014E4/sts/FuelUsage"
+  state_topic: "AfterburnerD014E4/stsRetained/FuelUsage"
   unit_of_measurement: 'mL'
   value_template: "{{ value }}"
   icon: mdi:fuel
 
 - platform: mqtt
   name: "Heater Fuel Usage Total"
-  state_topic: "AfterburnerD014E4/sts/TotalFuelUsage"
+  state_topic: "AfterburnerD014E4/stsRetained/TotalFuelUsage"
   unit_of_measurement: 'mL'
   value_template: "{{ value }}"
   icon: mdi:fuel
 
 - platform: mqtt
   name: "Heater Fuel Rate"
-  state_topic: "AfterburnerD014E4/sts/FuelRate"
+  state_topic: "AfterburnerD014E4/stsRetained/FuelRate"
   unit_of_measurement: 'mL/hr'
   value_template: "{{ value }}"
   icon: mdi:fuel
 
 - platform: mqtt
   name: "Heater Fan Speed"
-  state_topic: "AfterburnerD014E4/sts/FanRPM"
+  state_topic: "AfterburnerD014E4/stsRetained/FanRPM"
   unit_of_measurement: 'RPM'
   value_template: "{{ value }}"
   icon: mdi:fan
 
 - platform: mqtt
-  state_topic: "AfterburnerD014E4/JSONout"
+  state_topic: "AfterburnerD014E4/stsRetained/Humidity"
   name: 'Heater Relative Humidity'
   unit_of_measurement: '%'
-  value_template: "{% if (value_json.Humidity is defined) %}{{value_json.Humidity}}{% else %}{{states.sensor.heater_relative_humidity.state}}{% endif %}"
+  value_template: "{{ value }}"
   icon: mdi:water-percent
   device_class: humidity
   state_class: measurement
 
 - platform: mqtt
-  state_topic: "AfterburnerD014E4/JSONout"
+  state_topic: "AfterburnerD014E4/stsRetained/Altitude"
   name: 'Heater Altitude'
-  unit_of_measurement: 'm'
-  value_template: "{% if (value_json.Altitude is defined) %}{{value_json.Altitude}}{% else %}{{states.sensor.heater_altitude.state}}{% endif %}"
+  unit_of_measurement: 'ft'
+  value_template: "{{ value | float(1) | round(1) }}"
   icon: mdi:terrain
 
 - platform: mqtt
-  state_topic: "AfterburnerD014E4/JSONout"
+  state_topic: "AfterburnerD014E4/stsRetained/Pressure"
   name: 'Heater Pressure'
   unit_of_measurement: 'hPa'
-  value_template: "{% if (value_json.Pressure is defined) %}{{value_json.Pressure}}{% else %}{{states.sensor.heater_pressure.state}}{% endif %}"
+  value_template: "{{ value }}"
   icon: mdi:weather-windy-variant
   device_class: pressure
   state_class: measurement

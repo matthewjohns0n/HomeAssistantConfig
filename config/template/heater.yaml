@@ -1,0 +1,7 @@
+- sensor:
+    - name: "Heater GlowPlug Power"
+      unit_of_measurement: 'W'
+      state: >-
+        {{ ((states('sensor.heater_glowplug_current')|float) * (states('sensor.heater_glowplug_voltage')|float)) | round(2) }}
+      device_class: power
+      state_class: measurement
