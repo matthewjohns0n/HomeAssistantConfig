@@ -23,7 +23,7 @@
   - service: homeassistant.set_location
     data_template:
       latitude: |
-        {{ state_attr('device_tracker.keys_tile', 'latitude') }}
+        {{ state_attr('device_tracker.chelseas_purse_tile', 'latitude') }}
       longitude: |
-        {{ state_attr('device_tracker.keys_tile', 'longitude') }}
+        {{ state_attr('device_tracker.chelseas_purse_tile', 'longitude') }}
   mode: single
