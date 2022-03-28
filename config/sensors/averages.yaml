@@ -1,0 +1,14 @@
+
+- platform: min_max
+  name: Average Temperature
+  type: mean
+  round_digits: 1
+  entity_ids:
+    - sensor.heater_current_temperature
+    - sensor.heater_current_temperature_sensor_2
+    - sensor.shunt_temperature
+    - sensor.water_leak_sensor_temperature
+    - sensor.ble_temperature_xiaomi_sensor
+
+
+# - sensor.multiplus_temperature
