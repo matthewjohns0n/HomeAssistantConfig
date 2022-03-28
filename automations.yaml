@@ -84,7 +84,7 @@
       entity_id:
       - switch.inverter
   mode: single
-- id: 164748339432A
+- id: 164748339432Af
   alias: Remote - Inverter Toggle
   description: ''
   trigger:
@@ -126,7 +126,7 @@
     target:
       entity_id: switch.inverter
   mode: single
-- id: 164748339432C
+- id: 164748339432CH
   alias: Remote - Inverter Toggle
   description: ''
   trigger:
@@ -140,3 +140,19 @@
     target:
       entity_id: switch.inverter
   mode: single
+- id: '1648440424322'
+  alias: button to phone
+  description: ''
+  use_blueprint:
+    path: vorion/actionable-notifications-for-android.yaml
+    input:
+      notify_device: 5645c1b64d18128e58fdf8d9d69dde22
+      notification_title: Testing
+      notification_message: Testing 123
+      action_1_title: Button 1
+      first_action:
+      - service: switch.toggle
+        data: {}
+        target:
+          entity_id: switch.inverter
+      trigger_entity: input_boolean.pushit
