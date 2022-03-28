@@ -1,0 +1,21 @@
+# Fridge over BLE to MQTT
+
+#  Fridge temp
+
+- platform: mqtt
+  name: "Fridge Temperature"
+  state_topic: "fridge/temperature/fridge"
+  unit_of_measurement: '°F'
+  value_template: "{{ value }}"
+  device_class: temperature
+  state_class: measurement
+
+#  Freezer temp
+
+- platform: mqtt
+  name: "Freezer Temperature"
+  state_topic: "fridge/temperature/freezer"
+  unit_of_measurement: '°F'
+  value_template: "{{ value }}"
+  device_class: temperature
+  state_class: measurement
