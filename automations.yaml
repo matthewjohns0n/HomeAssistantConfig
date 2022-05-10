@@ -56,7 +56,7 @@
       title: Warning
   mode: single
 - id: '1647483395473'
-  alias: Remote - Inverter On
+  alias: Lights on back
   description: ''
   trigger:
   - platform: state
@@ -64,13 +64,17 @@
     to: brightness_up_hold
   condition: []
   action:
-  - service: switch.turn_on
-    data: {}
+  - service: light.turn_on
+    data:
+      transition: 7
     target:
-      entity_id: switch.inverter
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
   mode: single
 - id: '1647483394123'
-  alias: Remote - Inverter Off
+  alias: Lights off back
   description: ''
   trigger:
   - platform: state
@@ -78,11 +82,14 @@
     to: brightness_down_hold
   condition: []
   action:
-  - service: switch.turn_off
-    data: {}
+  - service: light.turn_off
+    data:
+      transition: 7
     target:
       entity_id:
-      - switch.inverter
+      - light.bed_light_matt
+      - light.bed_light_chelsea
+      - light.hallway_light
   mode: single
 - id: 164748339432Af
   alias: Remote - Inverter Toggle
@@ -99,7 +106,7 @@
       entity_id: switch.inverter
   mode: single
 - id: 164748339547B
-  alias: Remote - Inverter On
+  alias: Lights on front
   description: ''
   trigger:
   - platform: state
@@ -107,13 +114,16 @@
     to: brightness_up_hold
   condition: []
   action:
-  - service: switch.turn_on
+  - service: light.turn_on
     data: {}
     target:
-      entity_id: switch.inverter
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
   mode: single
 - id: 1647483394123D
-  alias: Remote - Inverter Off
+  alias: Lights off front remote
   description: ''
   trigger:
   - platform: state
@@ -121,24 +131,31 @@
     to: brightness_down_hold
   condition: []
   action:
-  - service: switch.turn_off
-    data: {}
+  - service: light.turn_off
+    data:
+      transition: 5
     target:
-      entity_id: switch.inverter
+      entity_id:
+      - light.bed_light_matt
+      - light.bed_light_chelsea
+      - light.hallway_light
   mode: single
 - id: 164748339432CH
   alias: Remote - Inverter Toggle
   description: ''
   trigger:
-  - platform: state
-    entity_id: sensor.remote_front_action
-    to: toggle
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: toggle
+    discovery_id: 0x2c1165fffecaf002 action_toggle
   condition: []
   action:
-  - service: switch.toggle
+  - service: input_button.press
     data: {}
     target:
-      entity_id: switch.inverter
+      entity_id: input_button.ikea_center
   mode: single
 - id: '1648440424322'
   alias: button to phone
@@ -156,3 +173,108 @@
         target:
           entity_id: switch.inverter
       trigger_entity: input_boolean.pushit
+- id: '1648571899858'
+  alias: IKEA Button Press
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.ikea_center
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.inverter
+  mode: single
+- id: '1651984868811'
+  alias: Chelsea lights up
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: brightness_up_click
+    discovery_id: 0x2c1165fffecaf002 action_brightness_up_click
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step: 25
+    target:
+      entity_id: light.bed_light_chelsea
+  mode: single
+- id: '1651985045659'
+  alias: Chelsea Lights Down
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: brightness_down_click
+    discovery_id: 0x2c1165fffecaf002 action_brightness_down_click
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step: -25
+    target:
+      entity_id: light.bed_light_chelsea
+  mode: single
+- id: '1651985254516'
+  alias: Matt lights up
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: arrow_right_click
+    discovery_id: 0x2c1165fffecaf002 action_arrow_right_click
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step: 25
+    target:
+      entity_id: light.bed_light_matt
+  mode: single
+- id: '1651985340389'
+  alias: Matt Light Down
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: arrow_left_click
+    discovery_id: 0x2c1165fffecaf002 action_arrow_left_click
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step: -25
+    target:
+      entity_id: light.bed_light_matt
+  mode: single
+- id: '1651985481023'
+  alias: Toggle All Lights
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 72016eb7fc7eb4e8b691eab072560377
+    type: action
+    subtype: toggle_hold
+    discovery_id: 0x2c1165fffecaf002 action_toggle_hold
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: single
