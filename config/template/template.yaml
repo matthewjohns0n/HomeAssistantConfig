@@ -2,11 +2,90 @@
 - sensor:
   - name: 'Unavailable entities'
     unique_id: 'unavailable_entities'
-    state: >-
-        {{ states.sensor | selectattr('state', '==', 'unavailable') | list | count }}
+    state: >
+      {%- set ns = namespace(sensors=[]) -%}
+      {%- for state in states.sensor
+        | selectattr('state', '==', 'unavailable') -%}
+        {% set ns.sensors = ns.sensors + [dict(name = state.name, state = state.entity_id)] %}
+      {%- endfor -%}
+      {%- set entities = ns.sensors | sort(attribute='state') %}
+      {%- set ns = namespace(entities='') -%}
+      {%- for state in entities -%}
+          {% set ns.entities= ns.entities + (state.name  ~ ' (' ~ state.state ~')' ~ "\n") %}
+      {%- endfor -%}
+      {% if ns.entities | count > 0 %}
+        {{ ns.entities | truncate(255, true, '...') }}
+      {% else %}
+        {{ 'none' }}
+      {% endif %}
     unit_of_measurement: 'entities'
     attributes:
-      entities: >-
-        {{ states.sensor | selectattr('state', '==', 'unavailable')
-          | map(attribute='entity_id')
-          | list| join(', ') }}
+      count: >-
+        {{ states.sensor | selectattr('state', '==', 'unavailable') | list | count }}
+      entities: >
+        {%- set ns = namespace(sensors=[]) -%}
+        {%- for state in states.sensor
+          | selectattr('state', '==', 'unavailable') -%}
+          {% set ns.sensors = ns.sensors + [dict(name = state.name, state = state.entity_id)] %}
+        {%- endfor -%}
+        {{ ns.sensors }}
+
+  ##### Low Battery list ##################################
+  - name: "Low Battery Devices"
+    unique_id: ba292875-ae67-480d-9867-29cdb20afaea
+    icon: >
+      mdi:battery-low
+    state: >
+      {% set threshold = states('input_number.battery_threshold') | int %}
+      {%- set ns = namespace(sensors=[]) -%}
+      {%- for state in states.sensor
+        | selectattr('attributes.device_class', 'defined')
+        | selectattr('attributes.state_class', 'defined')
+        | selectattr('attributes.device_class', '==', 'battery')
+        | selectattr('attributes.state_class', '==', 'measurement')
+        | selectattr('state', 'is_number') -%}
+        {%- if state.state | int <= threshold -%}
+          {% set ns.sensors = ns.sensors + [dict(name = state.name | replace(' battery', '') | replace(' Battery', ''), state = state.state | int)] %}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- set batt = ns.sensors | sort(attribute='state') %}
+      {%- set ns = namespace(batt='') -%}
+      {%- for state in batt -%}
+          {% set ns.batt= ns.batt + (state.name  ~ ' (' ~ state.state ~'%)' ~ "\n") %}
+      {%- endfor -%}
+
+      {% if ns.batt | count > 0 %}
+        {{ ns.batt | truncate(255, true, '...') }}
+      {% else %}
+        {{ 'none' }}
+      {% endif %}
+
+  ##### Updates available ##################################
+  - name: "Updates available"
+    unique_id: updates-available
+    state: >
+      {%- set ns = namespace(updates=[]) -%}
+      {%- for state in states.update
+        | selectattr('state', '==', 'on')-%}
+          {% set ns.updates = ns.updates + [dict(name = state.name | replace(': Update', ''), in_progress = state.attributes.in_progress)] %}
+      {%- endfor -%}
+
+      {%- set updates = ns.updates %}
+      {%- set ns = namespace(updates='') -%}
+      {%- for state in updates -%}
+          {% set update = state.name %}
+          {% if state.in_progress %}
+            {% set update = update + "\t (in progress)" %}
+          {% endif %}
+          {% set ns.updates = ns.updates + update ~ "\n" %}
+      {%- endfor -%}
+
+      {% if ns.updates | count > 0 %}
+        {{ ns.updates | truncate(255, true, '...') }}
+      {% else %}
+        {{ 'none' }}
+      {% endif %}
+    unit_of_measurement: 'services'
+    attributes:
+      count: >-
+        {{ states.update | selectattr('state', '==', 'on') | list | count }}
