@@ -4,11 +4,12 @@
   type: mean
   round_digits: 1
   entity_ids:
-    - sensor.heater_current_temperature
-    - sensor.heater_current_temperature_sensor_2
     - sensor.shunt_temperature
-    - sensor.water_leak_sensor_temperature
+    - sensor.water_leak_sensor_device_temperature
     - sensor.ble_temperature_xiaomi_sensor
+    - sensor.door_sensor_device_temperature
 
-
-# - sensor.multiplus_temperature
+    # - sensor. bme680 temp
+    # - sensor.heater_current_temperature
+    # - sensor.heater_current_temperature_sensor_2
+    # - sensor.multiplus_temperature
