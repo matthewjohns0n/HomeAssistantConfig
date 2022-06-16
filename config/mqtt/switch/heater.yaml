@@ -1,6 +1,7 @@
+
 # Switch to turn the heater on and off
-- platform: mqtt
-  name: Heater Thermostat On / Off
+- name: Heater Thermostat On / Off
+  unique_id: sensor_heater_thermostat_on_off
   state_topic: "AfterburnerD014E4/stsRetained/Run"
   command_topic: "AfterburnerD014E4/JSONin"
   value_template: '{{ value }}'

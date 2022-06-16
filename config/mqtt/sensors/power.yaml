@@ -1,0 +1,175 @@
+# Victron Entities
+
+#  Solar
+
+- name: "Solar Voltage"
+  unique_id: sensor_solar_voltage
+  state_topic: "venus-home/N/b827ebb94e80/solarcharger/289/Pv/V"
+  unit_of_measurement: 'V'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:solar-panel
+  device_class: voltage
+  state_class: measurement
+
+- name: "Solar Current"
+  unique_id: sensor_solar_current
+  state_topic: "venus-home/N/b827ebb94e80/solarcharger/289/Pv/I"
+  unit_of_measurement: 'A'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:solar-power
+  device_class: current
+  state_class: measurement
+  
+- name: "Solar Power"
+  unique_id: sensor_solar_power
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Pv/Power"
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:weather-sunny
+  device_class: power
+  state_class: measurement
+
+- name: "Solar Power kW"
+  unique_id: sensor_solar_power_kw
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Pv/Power"
+  unit_of_measurement: 'kW'
+  value_template: "{{ value_json.value | float(0) * 0.001 }}"
+  icon: mdi:weather-sunny
+  device_class: power
+  state_class: measurement
+
+#  AC
+
+- name: "AC Loads"
+  unique_id: sensor_ac_loads
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Ac/Consumption/L1/Power"
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:power-socket-us
+  device_class: power
+  state_class: measurement
+
+# This topic contains other things like F (hz), I (amps), V (volts)
+# venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/#
+- name: "Shore Power In"
+  unique_id: sensor_shore_power_in
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/P"
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:power-plug
+  device_class: power
+  state_class: measurement
+
+- name: "Inverter Mode"
+  unique_id: sensor_inverter_mode
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Mode"
+  icon: mdi:power-plug
+  value_template: "{{ value_json.value | int }}"
+
+# DC
+
+- name: "DC Loads"
+  unique_id: sensor_dc_loads
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/System/Power"
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:current-dc
+  device_class: power
+  state_class: measurement
+
+# Battery
+
+- name: "Total Power Usage"
+  unique_id: sensor_total_power_usage
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Power"
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:lightning-bolt
+  device_class: power
+  state_class: measurement
+
+- name: "Battery SOC"
+  unique_id: sensor_battery_soc
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Soc"
+  unit_of_measurement: '%'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:battery-high
+  device_class: battery
+  state_class: measurement
+
+- name: "Battery Voltage"
+  unique_id: sensor_battery_voltage
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Voltage"
+  unit_of_measurement: 'V'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  icon: mdi:lightning-bolt
+  device_class: voltage
+  state_class: measurement
+
+- name: "Battery Time Remaining"
+  unique_id: sensor_battery_time_remaining
+  icon: mdi:clock
+  # icon: mdi:battery-clock
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/TimeToGo"
+  value_template: >-
+          {% if (value_json.value is defined) %}
+            {% set time = value_json.value | int(-1) %}
+          {% else %}
+            {% set time = -2 %}
+          {% endif %}
+          {% set minutes = ((time % 3600) / 60) | int %}
+          {% set hours = ((time % 86400) / 3600) | int %}
+          {% set days = (time / 86400) | int %}
+
+          {%- if time == -2 -%}
+            Waiting for estimate
+          {%- elif time == -1 -%}
+            Infinite
+          {%- elif time < 60 -%}
+            Less than a minute
+          {%- else -%}
+            {%- if days > 0 -%}
+              {%- if days == 1 -%}
+                1 day
+              {%- else -%}
+                {{ days }} days
+              {%- endif -%}
+            {%- endif -%}
+            {%- if hours > 0 -%}
+              {%- if days > 0 -%}
+                {{ ', ' }}
+              {%- endif -%}
+              {%- if hours == 1 -%}
+                1 hour
+              {%- else -%}
+                {{ hours }} hours
+              {%- endif -%}
+            {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if days > 0 or hours > 0 -%}
+                {{ ', ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1 minute
+              {%- else -%}
+                {{ minutes }} minutes
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+- name: "Shunt Temperature"
+  unique_id: sensor_shunt_temperature
+  state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Battery/Temperature"
+  unit_of_measurement: '°C'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  device_class: temperature
+  state_class: measurement
+
+- name: "Multiplus Temperature"
+  unique_id: sensor_multiplus_temperature
+  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Dc/0/Temperature"
+  unit_of_measurement: '°C'
+  value_template: "{{ value_json.value | float(0) | round(2) }}"
+  device_class: temperature
+  state_class: measurement
+
