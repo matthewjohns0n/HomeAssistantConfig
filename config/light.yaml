@@ -1,0 +1,80 @@
+- platform: template
+  lights:
+    bed_light_matt:
+      friendly_name: Bed Light Matt
+      value_template: >-
+        {% if is_state('light.light_1', 'on') %}
+          on
+        {% elif is_state('light.light_1', 'off') %}
+          off
+        {% else %}
+          unknown
+        {% endif %}
+      turn_on:
+        service: light.turn_on
+        data:
+          entity_id: light.light_1
+      turn_off:
+        service: light.turn_off
+        data:
+          entity_id: light.light_1
+      level_template: >
+        {% set realLightBrightness = state_attr('light.light_1', 'brightness') | float %}
+        {{ ((38.15 - realLightBrightness) / -0.8504) | int }}
+      set_level:
+        service: light.turn_on
+        data_template:
+          entity_id: light.light_1
+          brightness: "{{ (0.8504 * brightness + 38.15) | int }}"
+    bed_light_chelsea:
+      friendly_name: Bed Light Chelsea
+      value_template: >-
+        {% if is_state('light.light_2', 'on') %}
+          on
+        {% elif is_state('light.light_2', 'off') %}
+          off
+        {% else %}
+          unknown
+        {% endif %}
+      turn_on:
+        service: light.turn_on
+        data:
+          entity_id: light.light_2
+      turn_off:
+        service: light.turn_off
+        data:
+          entity_id: light.light_2
+      level_template: >
+        {% set realLightBrightness = state_attr('light.light_2', 'brightness') | float %}
+        {{ ((38.15 - realLightBrightness) / -0.8504) | int }}
+      set_level:
+        service: light.turn_on
+        data_template:
+          entity_id: light.light_2
+          brightness: "{{ (0.8504 * brightness + 38.15) | int }}"
+    hallway_light:
+      friendly_name: Hallway Light
+      value_template: >-
+        {% if is_state('light.light_3', 'on') %}
+          on
+        {% elif is_state('light.light_3', 'off') %}
+          off
+        {% else %}
+          unknown
+        {% endif %}
+      turn_on:
+        service: light.turn_on
+        data:
+          entity_id: light.light_3
+      turn_off:
+        service: light.turn_off
+        data:
+          entity_id: light.light_3
+      level_template: >
+        {% set realLightBrightness = state_attr('light.light_3', 'brightness') | float %}
+        {{ ((38.15 - realLightBrightness) / -0.8504) | int }}
+      set_level:
+        service: light.turn_on
+        data_template:
+          entity_id: light.light_3
+          brightness: "{{ (0.8504 * brightness + 38.15) | int }}"
