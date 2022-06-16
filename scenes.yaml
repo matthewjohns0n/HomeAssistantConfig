@@ -1,0 +1,78 @@
+- id: '1652887450'
+  name: Lights Off
+  entities:
+    light.bed_light_chelsea:
+      supported_color_modes:
+      - brightness
+      friendly_name: bed_light_chelsea
+      supported_features: 1
+      state: 'off'
+    light.bed_light_matt:
+      supported_color_modes:
+      - brightness
+      friendly_name: Bed Light Matt
+      supported_features: 1
+      state: 'off'
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      friendly_name: hallway_light
+      supported_features: 1
+      state: 'off'
+  icon: mdi:lightbulb-group-off
+- id: '1652887498'
+  name: Lights On Full
+  entities:
+    light.bed_light_matt:
+      supported_color_modes:
+      - brightness
+      friendly_name: Bed Light Matt
+      supported_features: 1
+      color_mode: brightness
+      brightness: 254
+      state: 'on'
+    light.bed_light_chelsea:
+      supported_color_modes:
+      - brightness
+      friendly_name: bed_light_chelsea
+      supported_features: 1
+      color_mode: brightness
+      brightness: 254
+      state: 'on'
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      friendly_name: hallway_light
+      supported_features: 1
+      color_mode: brightness
+      brightness: 254
+      state: 'on'
+  icon: mdi:lightbulb-group
+- id: '1652887701700'
+  name: Dim Lights
+  entities:
+    light.bed_light_matt:
+      supported_color_modes:
+      - brightness
+      friendly_name: Bed Light Matt
+      supported_features: 1
+      color_mode: brightness
+      brightness: 6
+      state: 'on'
+    light.bed_light_chelsea:
+      supported_color_modes:
+      - brightness
+      friendly_name: bed_light_chelsea
+      supported_features: 1
+      color_mode: brightness
+      brightness: 6
+      state: 'on'
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      friendly_name: hallway_light
+      supported_features: 1
+      color_mode: brightness
+      brightness: 6
+      state: 'on'
+  icon: mdi:lightbulb-group-outline
