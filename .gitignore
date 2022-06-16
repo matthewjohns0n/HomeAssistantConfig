@@ -7,6 +7,7 @@
 # Unignore a couple top-level config files
 !configuration.yaml
 !automations.yaml
+!scenes.yaml
 
 # Unignore the config directory where all of our other configs reside
 !/config
@@ -15,4 +16,12 @@
 # Unignore the rtl_433 directory
 !/rtl_433
 !/rtl_433/**/*
+
+# Unignore the esphome directory
+!/esphome
+!/esphome/**/*
+
+# Unignore the www directory
+!/www
+!/www/**/*
 
