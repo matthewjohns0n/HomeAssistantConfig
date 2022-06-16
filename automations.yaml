@@ -1,11 +1,11 @@
 - id: '1644989034775'
-  alias: Tire Pressure Low
+  alias: Notify Phone if Tire Pressure is low
   description: ''
   trigger:
   - type: pressure
     platform: device
     device_id: e4f14c914bcebced798f3009924be84e
-    entity_id: sensor.promaster_tpms_b1_tire_p_psi
+    entity_id: sensor.promaster_tpms_b1_tire_spare_p_psi
     domain: sensor
     below: 65
   - type: pressure
@@ -35,9 +35,9 @@
   condition: []
   action:
   - service: notify.mobile_app_matt_s_phone
-    data_template:
-      message: '{{ trigger.entity.name }}'
-      title: Tire Pressure is getting low
+    data:
+      title: Tire Pressure is getting low!
+      message: Check tire pressure
   mode: single
 - id: '1645564536565'
   alias: Notify if there is a leak
@@ -277,4 +277,183 @@
       - light.bed_light_chelsea
       - light.bed_light_matt
       - light.hallway_light
+  mode: single
+- id: '1652164968945'
+  alias: Lights Full
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.lights_full
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness: 255
+    target:
+      entity_id:
+      - light.hallway_light
+      - light.bed_light_matt
+      - light.bed_light_chelsea
+  mode: single
+- id: '1652165079553'
+  alias: Lights Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.lights_off
+  condition: []
+  action:
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: single
+- id: '1652165140206'
+  alias: Chelsea Light Dim Button
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.chelsea_light_dim
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_pct: 3
+    target:
+      entity_id: light.bed_light_chelsea
+  mode: single
+- id: '1652888665810'
+  alias: Notify Test
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_matt_s_phone
+    data:
+      message: Sunset!
+  mode: single
+- id: '1653437640540'
+  alias: Wheel Light Decrease
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    type: action
+    subtype: rotate_left
+    discovery_id: 0xec1bbdfffe396b76 action_rotate_left
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step_pct: -5
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: single
+- id: '1653437946319'
+  alias: Wheel Light Increase
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    type: action
+    subtype: rotate_right
+    discovery_id: 0xec1bbdfffe396b76 action_rotate_right
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_step_pct: 5
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: single
+- id: '1653438210449'
+  alias: Wheel Spin
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.wheel_action
+    attribute: brightness
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness: '{{state_attr(''sensor.wheel_action'', ''brightness'')|int}}'
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: parallel
+  max: 100
+- id: '1653440818701'
+  alias: Wheel Button
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    type: action
+    subtype: play_pause
+    discovery_id: 0xec1bbdfffe396b76 action_play_pause
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    target:
+      entity_id:
+      - light.bed_light_chelsea
+      - light.bed_light_matt
+      - light.hallway_light
+  mode: single
+- id: '1653440901275'
+  alias: Wheel Double Tap
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    type: action
+    subtype: skip_forward
+    discovery_id: 0xec1bbdfffe396b76 action_skip_forward
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.lights_on_full_3
+    metadata: {}
+  mode: single
+- id: '1653440935233'
+  alias: Wheel Triple Tap
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    type: action
+    subtype: skip_backward
+    discovery_id: 0xec1bbdfffe396b76 action_skip_backward
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.dim_lights
+    metadata: {}
   mode: single
