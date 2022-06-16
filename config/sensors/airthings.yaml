@@ -1,0 +1,4 @@
+
+# Airthings BLE
+- platform: airthings_wave
+  scan_interval: 120
