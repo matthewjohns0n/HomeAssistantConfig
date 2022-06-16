@@ -8,6 +8,7 @@
 !configuration.yaml
 !automations.yaml
 !scenes.yaml
+!secrets.example.yaml
 
 # Unignore the config directory where all of our other configs reside
 !/config
