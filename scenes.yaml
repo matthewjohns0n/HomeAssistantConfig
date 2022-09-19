@@ -57,22 +57,58 @@
       friendly_name: Bed Light Matt
       supported_features: 1
       color_mode: brightness
-      brightness: 6
+      brightness: 12
       state: 'on'
     light.bed_light_chelsea:
       supported_color_modes:
       - brightness
-      friendly_name: bed_light_chelsea
+      friendly_name: Bed Light Chelsea
       supported_features: 1
       color_mode: brightness
-      brightness: 6
+      brightness: 65
       state: 'on'
     light.hallway_light:
       supported_color_modes:
       - brightness
-      friendly_name: hallway_light
+      friendly_name: Hallway Light
       supported_features: 1
       color_mode: brightness
-      brightness: 6
+      brightness: 63
       state: 'on'
   icon: mdi:lightbulb-group-outline
+  metadata: {}
+- id: '1659503036764'
+  name: Very Dim
+  entities:
+    light.bed_light_chelsea:
+      supported_color_modes:
+      - brightness
+      friendly_name: Bed Light Chelsea
+      supported_features: 1
+      color_mode: brightness
+      brightness: 9
+      state: 'on'
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      friendly_name: Hallway Light
+      supported_features: 1
+      color_mode: brightness
+      brightness: 9
+      state: 'on'
+    light.bed_light_matt:
+      supported_color_modes:
+      - brightness
+      friendly_name: Bed Light Matt
+      supported_features: 1
+      color_mode: brightness
+      brightness: 9
+      state: 'on'
+  icon: mdi:lightbulb-on-20
+  metadata:
+    light.bed_light_chelsea:
+      entity_only: true
+    light.hallway_light:
+      entity_only: true
+    light.bed_light_matt:
+      entity_only: true
