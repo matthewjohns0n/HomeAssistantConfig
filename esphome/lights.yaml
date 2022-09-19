@@ -45,6 +45,10 @@ output:
     pin: GPIO5
     frequency: 100 Hz
     id: pwm5
+    # Try this in the future to limit the range:
+    # min_power: 0.01
+    # max_power: 0.75
+    # zero_means_zero: true
 
 # Lights example
 light:
