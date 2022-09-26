@@ -25,42 +25,46 @@ wifi:
 captive_portal:
 
 output:
-  # Light 1
+  # Bed Light Matt
   - platform: esp8266_pwm
     pin: GPIO12
     frequency: 100 Hz
     id: pwm12
-  # Light 2
+    min_power: 0.01
+    zero_means_zero: true
+  # Bed Light Chelsea
   - platform: esp8266_pwm
     pin: GPIO14
     frequency: 100 Hz
     id: pwm14
-  # Light 3
+    min_power: 0.01
+    zero_means_zero: true
+  # Hallway Light
   - platform: esp8266_pwm
     pin: GPIO4
     frequency: 100 Hz
     id: pwm4
-  # Light 4
+    min_power: 0.01
+    zero_means_zero: true
+  # Closet Light
   - platform: esp8266_pwm
     pin: GPIO5
     frequency: 100 Hz
     id: pwm5
-    # Try this in the future to limit the range:
-    # min_power: 0.01
-    # max_power: 0.75
-    # zero_means_zero: true
+    min_power: 0.01
+    zero_means_zero: true
 
 # Lights example
 light:
   - platform: monochromatic
-    name: "Light 1"
+    name: "Bed Light Matt"
     output: pwm12
   - platform: monochromatic
-    name: "Light 2"
+    name: "Bed Light Chelsea"
     output: pwm14
   - platform: monochromatic
-    name: "Light 3"
+    name: "Hallway Light"
     output: pwm4
   - platform: monochromatic
-    name: "Light 4"
+    name: "Closet Light"
     output: pwm5
