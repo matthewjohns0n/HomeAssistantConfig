@@ -21,6 +21,7 @@
 # Unignore the esphome directory
 !/esphome
 !/esphome/**/*
+!/esphome/StartLocalESPHome.sh
 
 # Unignore the www directory
 !/www
