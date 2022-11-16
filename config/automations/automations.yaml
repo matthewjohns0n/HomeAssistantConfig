@@ -1,18 +1,5 @@
-# Automation that gets run ever 30 seconds to request MQTT info
-- id: '1643333678664'
-  alias: Refresh MQTT Victron
-  description: Request the data on the MQTT server
-  trigger:
-  - platform: time_pattern
-    seconds: '30'
-  action:
-  - service: mqtt.publish
-    data:
-      topic: venus-home/R/b827ebb94e80/system/0/Serial
-  mode: single
-
 # This will set our "home" location to match the location of the keys
-- id: '1644339090750'
+- id: 'Set location'
   alias: Set Location
   description: ''
   trigger:
