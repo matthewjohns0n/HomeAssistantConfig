@@ -4,7 +4,6 @@
   unique_id: sensor_heater_thermostat_on_off
   state_topic: "AfterburnerD014E4/stsRetained/Run"
   command_topic: "AfterburnerD014E4/JSONin"
-  value_template: '{{ value }}'
   payload_on: '{"Run":1}'
   payload_off: '{"Run":0}'
   state_on: "1"

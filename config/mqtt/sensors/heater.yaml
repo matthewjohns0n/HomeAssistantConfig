@@ -11,20 +11,17 @@
 - name: "Heater Thermostat Run 01"
   unique_id: sensor_heater_thermostat_run_01
   state_topic: "AfterburnerD014E4/stsRetained/Run"
-  value_template: "{{ value }}"
   icon: mdi:state-machine
 
 - name: "Heater Thermostat Run State"
   unique_id: sensor_heater_thermostat_run_state
   state_topic: "AfterburnerD014E4/stsRetained/RunString"
-  value_template: "{{ value }}"
   icon: mdi:state-machine
 
 - name: "Heater Current Temperature"
   unique_id: sensor_heater_current_temperature
   state_topic: "AfterburnerD014E4/stsRetained/TempCurrent"
   unit_of_measurement: '°C'
-  value_template: "{{ value }}"
   device_class: temperature
   state_class: measurement
 
@@ -32,7 +29,6 @@
   unique_id: sensor_heater_current_temperature_sensor_2
   state_topic: "AfterburnerD014E4/stsRetained/Temp2Current"
   unit_of_measurement: '°C'
-  value_template: "{{ value }}"
   device_class: temperature
   state_class: measurement
 
@@ -40,7 +36,6 @@
   unique_id: sensor_sensor.heater_current_temperature_of_body
   state_topic: "AfterburnerD014E4/stsRetained/TempBody"
   unit_of_measurement: '°C'
-  value_template: "{{ value }}"
   device_class: temperature
   state_class: measurement
 
@@ -48,7 +43,6 @@
   unique_id: sensor_heater_desired_temperature
   state_topic: "AfterburnerD014E4/stsRetained/TempDesired"
   unit_of_measurement: '°C'
-  value_template: "{{ value }}"
   device_class: temperature
   state_class: measurement
 
@@ -56,7 +50,6 @@
   unique_id: sensor_heater_input_voltage
   state_topic: "AfterburnerD014E4/stsRetained/InputVoltage"
   unit_of_measurement: 'V'
-  value_template: "{{ value }}"
   icon: mdi:lightning-bolt
   device_class: voltage
   state_class: measurement
