@@ -18,15 +18,14 @@ mqtt:
   switch: !include_dir_merge_list config/mqtt/switch/
   sensor: !include_dir_merge_list config/mqtt/sensors/
   number: !include config/mqtt/numbers.yaml
+  climate: !include config/mqtt/climate.yaml
 
 # Customize home assistant
 homeassistant:
   customize: !include config/customize.yaml
 
 # Single file includes
-climate: !include config/climate.yaml
 light: !include config/light.yaml
-# number: !include config/numbers.yaml
 
 # Include config settings:
 tts: !include config/settings/tts.yaml

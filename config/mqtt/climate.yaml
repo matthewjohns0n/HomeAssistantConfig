@@ -1,0 +1,34 @@
+- name: Van Heating
+  action_topic: "AfterburnerD014E4/sts/RunState"
+  action_template: >
+    {% if value in ("0", "1", "6", "7", "8") %}
+      off
+    {% elif value in ("10", "12") %}
+      idle
+    {% else %}
+      heating
+    {% endif %}
+  temperature_unit: C
+  current_temperature_topic: "AfterburnerD014E4/sts/TempCurrent"
+  max_temp: 35
+  min_temp: 2
+  modes:
+    - "off"
+    - "heat"
+  mode_state_topic: "AfterburnerD014E4/sts/Run"
+  mode_state_template: >
+    {% if value == "1" %}
+      heat
+    {% else %}
+      off
+    {% endif %}
+  mode_command_topic: "AfterburnerD014E4/cmd/Run"
+  mode_command_template: >
+    {% if value == "heat" %}
+      1
+    {% else %}
+      0
+    {% endif %}
+  precision: 0.1
+  temperature_command_topic: "AfterburnerD014E4/cmd/TempDesired"
+  temperature_state_topic: "AfterburnerD014E4/sts/TempDesired"
