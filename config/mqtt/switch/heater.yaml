@@ -12,3 +12,23 @@
   retain: false
   qos: 0
   icon: mdi:fire
+
+# Switch to turn frost mode on and off
+- name: Heater Frost Mode
+  unique_id: sensor.frost_mode
+  state_topic: "AfterburnerD014E4/ParsedJson/FrostOn"
+  command_topic: "AfterburnerD014E4/JSONin"
+  payload_on: '{"FrostOn":4}'
+  payload_off: '{"FrostOn":0}'
+  value_template: >
+    {% if value | float > 0 %}
+      on
+    {% else %}
+      off
+    {% endif %}
+  state_on: 'on'
+  state_off: 'off'
+  optimistic: false
+  retain: true
+  qos: 0
+  icon: mdi:snowflake
