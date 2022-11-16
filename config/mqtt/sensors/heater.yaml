@@ -134,14 +134,9 @@
   state_topic: "AfterburnerD014E4/sts/Thermostat"
   icon: mdi:radiator
 
-- name: "Heater GPanlg"
-  unique_id: sensor_heater_gpanlg
-  state_topic: "AfterburnerD014E4/sts/GPanlg"
-  icon: mdi:radiator
-
 - name: 'Heater Relative Humidity'
   unique_id: sensor_heater_relative_humidity
-  state_topic: "AfterburnerD014E4/sts/Humidity"
+  state_topic: "AfterburnerD014E4/ParsedJson/Humidity"
   unit_of_measurement: '%'
   icon: mdi:water-percent
   device_class: humidity
@@ -149,14 +144,14 @@
 
 - name: 'Heater Altitude'
   unique_id: sensor_heater_altitude
-  state_topic: "AfterburnerD014E4/sts/Altitude"
+  state_topic: "AfterburnerD014E4/ParsedJson/Altitude"
   unit_of_measurement: 'ft'
   value_template: "{{ value | float(1) | round(1) }}"
   icon: mdi:terrain
 
 - name: 'Heater Pressure'
   unique_id: sensor_heater_pressure
-  state_topic: "AfterburnerD014E4/sts/Pressure"
+  state_topic: "AfterburnerD014E4/ParsedJson/Pressure"
   unit_of_measurement: 'hPa'
   icon: mdi:weather-windy-variant
   device_class: pressure
