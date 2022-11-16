@@ -1,0 +1,29 @@
+# Get heater status on boot
+- id: 'Get Heater Status'
+  alias: Get Heater Status at Start up
+  description: "Request heater status at start-up"
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+    - service: mqtt.publish
+      data:
+        topic: AfterburnerD014E4/cmd/Refresh
+        payload: "1"
+  mode: single
+
+# Get heater status on boot
+- id: 'Get Heater Status every 30 seconds'
+  alias: Get Heater Status every 30 seconds
+  description: "Request heater status 30 seconds"
+  trigger:
+  - platform: time_pattern
+    seconds: '30'
+  condition: []
+  action:
+    - service: mqtt.publish
+      data:
+        topic: AfterburnerD014E4/cmd/Refresh
+        payload: "1"
+  mode: single
