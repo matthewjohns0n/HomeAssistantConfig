@@ -10,3 +10,21 @@
         {% else %}
           Off
         {% endif %}
+
+- sensor:
+    - name: "Multiplus Inverter"
+      state: >-
+        {% if is_state('sensor.inverter_mode', '2') or is_state('sensor.inverter_mode', '3') %}
+          On
+        {% else %}
+          Off
+        {% endif %}
+
+- sensor:
+    - name: "Multiplus Charger"
+      state: >-
+        {% if is_state('sensor.inverter_mode', '1') or is_state('sensor.inverter_mode', '3') %}
+          On
+        {% else %}
+          Off
+        {% endif %}
