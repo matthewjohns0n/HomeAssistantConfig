@@ -1,5 +1,5 @@
 - sensor:
-    - name: "Inverter Status"
+    - name: "Multiplus Status"
       state: >-
         {% if is_state('sensor.inverter_mode', '1') %}
           Charger only
