@@ -1,8 +1,8 @@
 
 # Switch to turn the heater on and off
-- name: Heater Thermostat On / Off
+- name: Heater
   unique_id: sensor_heater_thermostat_on_off
-  state_topic: "AfterburnerD014E4/stsRetained/Run"
+  state_topic: "AfterburnerD014E4/sts/Run"
   command_topic: "AfterburnerD014E4/JSONin"
   payload_on: '{"Run":1}'
   payload_off: '{"Run":0}'
@@ -11,4 +11,4 @@
   optimistic: false
   retain: false
   qos: 0
-  icon: mdi:power
+  icon: mdi:fire

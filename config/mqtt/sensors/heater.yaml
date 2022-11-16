@@ -8,47 +8,57 @@
     - topic: "AfterburnerD014E4/status"
   icon: mdi:thermostat
 
-- name: "Heater Thermostat Run 01"
-  unique_id: sensor_heater_thermostat_run_01
-  state_topic: "AfterburnerD014E4/stsRetained/Run"
+- name: "Heater Thermostat Run"
+  unique_id: sensor_heater_thermostat_run
+  state_topic: "AfterburnerD014E4/sts/Run"
+  icon: mdi:state-machine
+
+- name: "Heater Thermostat Run String"
+  unique_id: sensor_heater_thermostat_run_string
+  state_topic: "AfterburnerD014E4/sts/RunString"
+  icon: mdi:state-machine
+
+- name: "Heater Thermostat Run HA"
+  unique_id: sensor_heater_thermostat_run_ha
+  state_topic: "AfterburnerD014E4/sts/RunHA"
   icon: mdi:state-machine
 
 - name: "Heater Thermostat Run State"
   unique_id: sensor_heater_thermostat_run_state
-  state_topic: "AfterburnerD014E4/stsRetained/RunString"
+  state_topic: "AfterburnerD014E4/sts/RunState"
   icon: mdi:state-machine
 
 - name: "Heater Current Temperature"
   unique_id: sensor_heater_current_temperature
-  state_topic: "AfterburnerD014E4/stsRetained/TempCurrent"
+  state_topic: "AfterburnerD014E4/sts/TempCurrent"
   unit_of_measurement: '°C'
   device_class: temperature
   state_class: measurement
 
 - name: "Heater Current Temperature Sensor 2"
   unique_id: sensor_heater_current_temperature_sensor_2
-  state_topic: "AfterburnerD014E4/stsRetained/Temp2Current"
+  state_topic: "AfterburnerD014E4/sts/Temp2Current"
   unit_of_measurement: '°C'
   device_class: temperature
   state_class: measurement
 
 - name: "Heater Current Temperature of Body"
   unique_id: sensor_sensor.heater_current_temperature_of_body
-  state_topic: "AfterburnerD014E4/stsRetained/TempBody"
+  state_topic: "AfterburnerD014E4/sts/TempBody"
   unit_of_measurement: '°C'
   device_class: temperature
   state_class: measurement
 
 - name: "Heater Desired Temperature"
   unique_id: sensor_heater_desired_temperature
-  state_topic: "AfterburnerD014E4/stsRetained/TempDesired"
+  state_topic: "AfterburnerD014E4/sts/TempDesired"
   unit_of_measurement: '°C'
   device_class: temperature
   state_class: measurement
 
 - name: "Heater Input Voltage"
   unique_id: sensor_heater_input_voltage
-  state_topic: "AfterburnerD014E4/stsRetained/InputVoltage"
+  state_topic: "AfterburnerD014E4/sts/InputVoltage"
   unit_of_measurement: 'V'
   icon: mdi:lightning-bolt
   device_class: voltage
@@ -56,70 +66,98 @@
 
 - name: "Heater GlowPlug Voltage"
   unique_id: sensor_heater_glowplug_voltage
-  state_topic: "AfterburnerD014E4/stsRetained/GlowVoltage"
+  state_topic: "AfterburnerD014E4/sts/GlowVoltage"
   unit_of_measurement: 'V'
-  value_template: "{{ value }}"
   icon: mdi:lightning-bolt
   device_class: voltage
   state_class: measurement
 
 - name: "Heater GlowPlug Current"
   unique_id: sensor_heater_glowplug_current
-  state_topic: "AfterburnerD014E4/stsRetained/GlowCurrent"
+  state_topic: "AfterburnerD014E4/sts/GlowCurrent"
   unit_of_measurement: 'A'
-  value_template: "{{ value }}"
   device_class: current
   state_class: measurement
 
 - name: "Heater Fuel Usage"
   unique_id: sensor_heater_fuel_usage
-  state_topic: "AfterburnerD014E4/stsRetained/FuelUsage"
+  state_topic: "AfterburnerD014E4/sts/FuelUsage"
   unit_of_measurement: 'mL'
-  value_template: "{{ value }}"
   icon: mdi:fuel
 
 - name: "Heater Fuel Usage Total"
   unique_id: sensor_heater_fuel_usage_total
-  state_topic: "AfterburnerD014E4/stsRetained/TotalFuelUsage"
+  state_topic: "AfterburnerD014E4/sts/TotalFuelUsage"
   unit_of_measurement: 'mL'
-  value_template: "{{ value }}"
   icon: mdi:fuel
 
 - name: "Heater Fuel Rate"
   unique_id: sensor_heater_fuel_rate
-  state_topic: "AfterburnerD014E4/stsRetained/FuelRate"
+  state_topic: "AfterburnerD014E4/sts/FuelRate"
   unit_of_measurement: 'mL/hr'
-  value_template: "{{ value }}"
   icon: mdi:fuel
 
 - name: "Heater Fan Speed"
   unique_id: sensor_heater_fan_speed
-  state_topic: "AfterburnerD014E4/stsRetained/FanRPM"
+  state_topic: "AfterburnerD014E4/sts/FanRPM"
   unit_of_measurement: 'RPM'
-  value_template: "{{ value }}"
   icon: mdi:fan
+
+- name: "Heater Pump Rate Actual"
+  unique_id: sensor_heater_pump_rate_actual
+  state_topic: "AfterburnerD014E4/sts/PumpActual"
+  unit_of_measurement: 'Hz'
+  device_class: frequency
+  state_class: measurement
+  icon: mdi:gas-station
+
+- name: "Heater Pump Rate Fixed"
+  unique_id: sensor_heater_pump_rate_fixed
+  state_topic: "AfterburnerD014E4/sts/PumpFixed"
+  unit_of_measurement: 'Hz'
+  device_class: frequency
+  state_class: measurement
+  icon: mdi:gas-station
+
+- name: "Heater Error State"
+  unique_id: sensor_heater_error_state
+  state_topic: "AfterburnerD014E4/sts/ErrorState"
+  icon: mdi:alert-rhombus
+
+- name: "Heater Error String"
+  unique_id: sensor_heater_error_string
+  state_topic: "AfterburnerD014E4/sts/ErrorString"
+  icon: mdi:alert-rhombus
+
+- name: "Heater Thermostat"
+  unique_id: sensor_heater_thermostat
+  state_topic: "AfterburnerD014E4/sts/Thermostat"
+  icon: mdi:radiator
+
+- name: "Heater GPanlg"
+  unique_id: sensor_heater_gpanlg
+  state_topic: "AfterburnerD014E4/sts/GPanlg"
+  icon: mdi:radiator
 
 - name: 'Heater Relative Humidity'
   unique_id: sensor_heater_relative_humidity
-  state_topic: "AfterburnerD014E4/stsRetained/Humidity"
+  state_topic: "AfterburnerD014E4/sts/Humidity"
   unit_of_measurement: '%'
-  value_template: "{{ value }}"
   icon: mdi:water-percent
   device_class: humidity
   state_class: measurement
 
 - name: 'Heater Altitude'
   unique_id: sensor_heater_altitude
-  state_topic: "AfterburnerD014E4/stsRetained/Altitude"
+  state_topic: "AfterburnerD014E4/sts/Altitude"
   unit_of_measurement: 'ft'
   value_template: "{{ value | float(1) | round(1) }}"
   icon: mdi:terrain
 
 - name: 'Heater Pressure'
   unique_id: sensor_heater_pressure
-  state_topic: "AfterburnerD014E4/stsRetained/Pressure"
+  state_topic: "AfterburnerD014E4/sts/Pressure"
   unit_of_measurement: 'hPa'
-  value_template: "{{ value }}"
   icon: mdi:weather-windy-variant
   device_class: pressure
   state_class: measurement
