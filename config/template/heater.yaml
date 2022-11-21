@@ -5,3 +5,13 @@
         {{ ((states('sensor.heater_glowplug_current')|float) * (states('sensor.heater_glowplug_voltage')|float)) | round(2) }}
       device_class: power
       state_class: measurement
+
+# Assuming a 9000mL tank, this calculates the tank level
+- sensor:
+    - name: "Diesel Tank Level"
+      unit_of_measurement: '%'
+      state: >-
+        {{ ((9000 - states('sensor.heater_fuel_usage')|int) / 9000 * 100) | round(1) }}
+      state_class: measurement
+      icon: >
+        mdi:fuel
