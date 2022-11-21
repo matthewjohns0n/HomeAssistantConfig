@@ -27,3 +27,7 @@
 !/www
 !/www/**/*
 
+# Unignore the node red flow file
+!/node-red/flows.json
+
+
