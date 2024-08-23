@@ -1,79 +1,111 @@
 - id: '1652887450'
   name: Lights Off
   entities:
-    light.bed_light_chelsea:
+    light.hallway_light:
       supported_color_modes:
       - brightness
-      friendly_name: bed_light_chelsea
-      supported_features: 1
+      color_mode:
+      brightness:
+      friendly_name: Hallway Light
+      supported_features: 40
       state: 'off'
     light.bed_light_matt:
       supported_color_modes:
       - brightness
+      color_mode:
+      brightness:
       friendly_name: Bed Light Matt
-      supported_features: 1
+      supported_features: 40
       state: 'off'
-    light.hallway_light:
+    light.bed_light_chelsea:
       supported_color_modes:
       - brightness
-      friendly_name: hallway_light
-      supported_features: 1
+      color_mode:
+      brightness:
+      friendly_name: Bed Light Chelsea
+      supported_features: 40
+      state: 'off'
+    light.front_light:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      friendly_name: Front Light
+      supported_features: 40
       state: 'off'
   icon: mdi:lightbulb-group-off
+  metadata: {}
 - id: '1652887498'
   name: Lights On Full
   entities:
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      friendly_name: Hallway Light
+      supported_features: 40
+      state: 'on'
     light.bed_light_matt:
       supported_color_modes:
       - brightness
-      friendly_name: Bed Light Matt
-      supported_features: 1
       color_mode: brightness
       brightness: 254
+      friendly_name: Bed Light Matt
+      supported_features: 40
       state: 'on'
     light.bed_light_chelsea:
       supported_color_modes:
       - brightness
-      friendly_name: bed_light_chelsea
-      supported_features: 1
       color_mode: brightness
       brightness: 254
+      friendly_name: Bed Light Chelsea
+      supported_features: 40
       state: 'on'
-    light.hallway_light:
+    light.front_light:
       supported_color_modes:
       - brightness
-      friendly_name: hallway_light
-      supported_features: 1
       color_mode: brightness
-      brightness: 254
+      brightness: 255
+      friendly_name: Front Light
+      supported_features: 40
       state: 'on'
   icon: mdi:lightbulb-group
+  metadata: {}
 - id: '1652887701700'
   name: Dim Lights
   entities:
+    light.hallway_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 128
+      friendly_name: Hallway Light
+      supported_features: 40
+      state: 'on'
     light.bed_light_matt:
       supported_color_modes:
       - brightness
-      friendly_name: Bed Light Matt
-      supported_features: 1
       color_mode: brightness
-      brightness: 12
+      brightness: 128
+      friendly_name: Bed Light Matt
+      supported_features: 40
       state: 'on'
     light.bed_light_chelsea:
       supported_color_modes:
       - brightness
-      friendly_name: Bed Light Chelsea
-      supported_features: 1
       color_mode: brightness
-      brightness: 65
+      brightness: 128
+      friendly_name: Bed Light Chelsea
+      supported_features: 40
       state: 'on'
-    light.hallway_light:
+    light.front_light:
       supported_color_modes:
       - brightness
-      friendly_name: Hallway Light
-      supported_features: 1
       color_mode: brightness
-      brightness: 63
+      brightness: 128
+      friendly_name: Front Light
+      supported_features: 40
       state: 'on'
   icon: mdi:lightbulb-group-outline
   metadata: {}
@@ -83,26 +115,34 @@
     light.bed_light_chelsea:
       supported_color_modes:
       - brightness
-      friendly_name: Bed Light Chelsea
-      supported_features: 1
       color_mode: brightness
-      brightness: 9
+      brightness: 10
+      friendly_name: Bed Light Chelsea
+      supported_features: 40
       state: 'on'
     light.hallway_light:
       supported_color_modes:
       - brightness
-      friendly_name: Hallway Light
-      supported_features: 1
       color_mode: brightness
       brightness: 9
+      friendly_name: Hallway Light
+      supported_features: 40
       state: 'on'
     light.bed_light_matt:
       supported_color_modes:
       - brightness
-      friendly_name: Bed Light Matt
-      supported_features: 1
       color_mode: brightness
       brightness: 9
+      friendly_name: Bed Light Matt
+      supported_features: 40
+      state: 'on'
+    light.front_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 10
+      friendly_name: Front Light
+      supported_features: 40
       state: 'on'
   icon: mdi:lightbulb-on-20
   metadata:
@@ -111,4 +151,6 @@
     light.hallway_light:
       entity_only: true
     light.bed_light_matt:
+      entity_only: true
+    light.front_light:
       entity_only: true

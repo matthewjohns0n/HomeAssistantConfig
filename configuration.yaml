@@ -9,7 +9,7 @@ automation manual:     !include_dir_merge_list config/automations/
 binary_sensor:         !include_dir_merge_list config/binary_sensors/
 group:                 !include_dir_merge_list config/groups/
 scene manual:          !include_dir_merge_list config/scenes/
-script:                !include_dir_merge_named config/scripts/
+# script:                !include_dir_merge_named config/scripts/
 sensor:                !include_dir_merge_list config/sensors/
 switch:                !include_dir_merge_list config/switch/
 template:              !include_dir_merge_list config/template/
@@ -34,4 +34,10 @@ influxdb: !include config/settings/influxdb.yaml
 # For automations created in the UI
 automation ui: !include automations.yaml
 scene ui: !include scenes.yaml
+script ui: !include scripts.yaml
+
+camera:
+  - platform: ffmpeg
+    name: cam
+    input: /dev/video0
 

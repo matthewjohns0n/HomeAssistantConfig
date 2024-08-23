@@ -1,0 +1,28 @@
+# Modes:
+# 1=Charger Only
+# 2=Inverter Only
+# 3=Inverter and Charger On
+# 4=Off
+- platform: template
+  switches:
+    inverter_switch:
+      unique_id: switch_inverter
+      friendly_name: "Inverter"
+      # If the mode is 2 or 3, the inverter is on
+      value_template: "{{ is_state('sensor.inverter_mode', '2') or is_state('sensor.inverter_mode', '3') }}"
+      turn_on:
+        service: script.toggle_inverter
+      turn_off:
+        service: script.toggle_inverter
+
+    charger_switch:
+      friendly_name: "Charger"
+      unique_id: switch_charger
+      # If the mode is 1 or 3, the charger is on
+      value_template: "{{ is_state('sensor.inverter_mode', '1') or is_state('sensor.inverter_mode', '3') }}"
+      turn_on:
+        service: script.toggle_charger
+      turn_off:
+        service: script.toggle_charger
+
+

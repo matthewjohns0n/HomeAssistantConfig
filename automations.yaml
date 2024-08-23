@@ -25,19 +25,23 @@
     device_id: 4214db4df3d0c354cf8fc17e52ad3cb5
     entity_id: sensor.promaster_tpms_f1_tire_p_psi
     domain: sensor
-    below: 58
+    below: 57
   - type: pressure
     platform: device
     device_id: 123dc5a46a18fb1c10880427f4a2902c
     entity_id: sensor.promaster_tpms_f2_tire_p_psi
     domain: sensor
-    below: 58
+    below: 57
+  - platform: numeric_state
+    entity_id: sensor.promaster_tpms_b2_tire_p_psi
+    below: 75
   condition: []
   action:
   - service: notify.mobile_app_matt_s_phone
     data:
       title: Tire Pressure is getting low!
-      message: Check tire pressure
+      message: '{{ trigger.entity_id }}, Date {{ now().strftime(''%Y-%m-%d'') }},
+        Time {{ now().strftime(''%H:%M'') }}'
   mode: single
 - id: '1645564536565'
   alias: Notify if there is a leak
@@ -105,123 +109,6 @@
     target:
       entity_id: switch.inverter
   mode: single
-- id: 164748339547B
-  alias: Lights on front
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.remote_front_action
-    to: brightness_up_hold
-  condition: []
-  action:
-  - service: light.turn_on
-    data: {}
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
-- id: 1647483394123D
-  alias: Lights off front remote
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.remote_front_action
-    to: brightness_down_hold
-  condition: []
-  action:
-  - service: light.turn_off
-    data:
-      transition: 5
-    target:
-      entity_id:
-      - light.bed_light_matt
-      - light.bed_light_chelsea
-      - light.hallway_light
-  mode: single
-- id: 164748339432CH
-  alias: Remote - Inverter Toggle
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: toggle
-    discovery_id: 0x2c1165fffecaf002 action_toggle
-  condition: []
-  action:
-  - service: input_button.press
-    data: {}
-    target:
-      entity_id: input_button.ikea_center
-  mode: single
-- id: '1648440424322'
-  alias: button to phone
-  description: ''
-  use_blueprint:
-    path: vorion/actionable-notifications-for-android.yaml
-    input:
-      notify_device: 5645c1b64d18128e58fdf8d9d69dde22
-      notification_title: Testing
-      notification_message: Testing 123
-      action_1_title: Button 1
-      first_action:
-      - service: switch.toggle
-        data: {}
-        target:
-          entity_id: switch.inverter
-      trigger_entity: input_boolean.pushit
-- id: '1648571899858'
-  alias: IKEA Button Press
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_button.ikea_center
-  condition: []
-  action:
-  - service: switch.toggle
-    data: {}
-    target:
-      entity_id: switch.inverter
-  mode: single
-- id: '1651984868811'
-  alias: Chelsea lights up
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: brightness_up_click
-    discovery_id: 0x2c1165fffecaf002 action_brightness_up_click
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step: 25
-    target:
-      entity_id: light.bed_light_chelsea
-  mode: single
-- id: '1651985045659'
-  alias: Chelsea Lights Down
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: brightness_down_click
-    discovery_id: 0x2c1165fffecaf002 action_brightness_down_click
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step: -25
-    target:
-      entity_id: light.bed_light_chelsea
-  mode: single
 - id: '1651985254516'
   alias: Matt lights up
   description: ''
@@ -258,26 +145,6 @@
     target:
       entity_id: light.bed_light_matt
   mode: single
-- id: '1651985481023'
-  alias: Toggle All Lights
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: toggle_hold
-    discovery_id: 0x2c1165fffecaf002 action_toggle_hold
-  condition: []
-  action:
-  - service: light.toggle
-    data: {}
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
 - id: '1652164968945'
   alias: Lights Full
   description: ''
@@ -313,21 +180,6 @@
       - light.bed_light_matt
       - light.hallway_light
   mode: single
-- id: '1652165140206'
-  alias: Chelsea Light Dim Button
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - input_button.chelsea_light_dim
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_pct: 3
-    target:
-      entity_id: light.bed_light_chelsea
-  mode: single
 - id: '1652888665810'
   alias: Notify Test
   description: ''
@@ -341,119 +193,376 @@
     data:
       message: Sunset!
   mode: single
-- id: '1653437640540'
-  alias: Wheel Light Decrease
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
-    type: action
-    subtype: rotate_left
-    discovery_id: 0xec1bbdfffe396b76 action_rotate_left
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step_pct: -5
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
-- id: '1653437946319'
-  alias: Wheel Light Increase
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
-    type: action
-    subtype: rotate_right
-    discovery_id: 0xec1bbdfffe396b76 action_rotate_right
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step_pct: 5
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
-- id: '1653438210449'
-  alias: Wheel Spin
+- id: '1669434786917'
+  alias: Inverter Timer
   description: ''
   trigger:
   - platform: state
     entity_id:
-    - sensor.wheel_action
-    attribute: brightness
+    - input_boolean.inverter_timer
+    from: 'off'
+    to: 'on'
+    id: inverter-timer-on
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.inverter_timer
+    id: inverter-timer-finished
+  - platform: state
+    entity_id:
+    - input_boolean.inverter_timer
+    from: 'on'
+    to: 'off'
+    id: inverter-timer-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: inverter-timer-on
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.inverter
+      - service: timer.start
+        data: {}
+        target:
+          entity_id: timer.inverter_timer
+    - conditions:
+      - condition: trigger
+        id: inverter-timer-off
+      sequence:
+      - service: timer.pause
+        data: {}
+        target:
+          entity_id: timer.inverter_timer
+      - service: timer.cancel
+        data: {}
+        target:
+          entity_id: timer.inverter_timer
+    - conditions:
+      - condition: trigger
+        id: inverter-timer-finished
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.inverter
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.inverter_timer
+  mode: single
+- id: '1669436419986'
+  alias: Adjust Heater Temperature Schedule
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+    alias: Midnight
+    id: midnight
+  - platform: time
+    at: 06:50:00
+    alias: Morning
+    id: morning
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: midnight
+      sequence:
+      - service: climate.set_temperature
+        data:
+          temperature: 55
+        target:
+          entity_id: climate.van_heating
+    - conditions:
+      - condition: trigger
+        id: morning
+      sequence:
+      - service: climate.set_temperature
+        data:
+          temperature: 66
+        target:
+          entity_id: climate.van_heating
+  mode: single
+- id: '1673932993939'
+  alias: 1 Slowly dim lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.start_slow_dim
   condition: []
   action:
   - service: light.turn_on
     data:
-      brightness: '{{state_attr(''sensor.wheel_action'', ''brightness'')|int}}'
+      transition: '{{ states(''input_number.light_dim_time'') | int(0) }}'
+      brightness_pct: '{{ states(''input_number.dim_light_to'') | int(0) }}'
     target:
       entity_id:
-      - light.bed_light_chelsea
+      - light.front_light
       - light.bed_light_matt
       - light.hallway_light
-  mode: parallel
-  max: 100
-- id: '1653440818701'
-  alias: Wheel Button
+      - light.bed_light_chelsea
+  mode: single
+- id: '1675839756900'
+  alias: Chelsea IKEA buttons
+  description: ''
+  use_blueprint:
+    path: malorezzanzo64/z2m-ikea-tradfri-5-button-remote-double-and-triple-clicks.yaml
+    input:
+      remote: sensor.remote_back_action
+      button_center_x1:
+      - service: switch.toggle
+        data: {}
+        target:
+          entity_id: switch.inverter
+      button_center_x1_immediate: []
+      button_center_x2:
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.inverter_timer
+      button_left_x1:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.bed_light_chelsea
+      button_center_x3:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.hallway_light
+      button_right_x1:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.bed_light_matt
+      button_left_x2:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_chelsea
+      button_left_x3:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_chelsea
+      button_right_x2:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_matt
+      button_right_x3:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_matt
+      button_up_x1:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+      button_down_x1:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+      button_up_x2:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dim_lights
+        metadata: {}
+      button_up_x3:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_on_full_3
+        metadata: {}
+      button_down_x2:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.very_dim
+        metadata: {}
+      button_down_x3:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_off_3
+        metadata: {}
+- id: '1675897172627'
+  alias: IKEA Matt
+  description: ''
+  use_blueprint:
+    path: malorezzanzo64/z2m-ikea-tradfri-5-button-remote-double-and-triple-clicks.yaml
+    input:
+      remote: sensor.remote_front_action
+      button_center_x1:
+      - service: switch.toggle
+        data: {}
+        target:
+          entity_id: switch.inverter
+      button_center_x1_immediate: []
+      button_center_x2:
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.inverter_timer
+      button_left_x1:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.bed_light_chelsea
+      button_center_x3:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.hallway_light
+      button_right_x1:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.bed_light_matt
+      button_left_x2:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_chelsea
+      button_left_x3:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_chelsea
+      button_right_x2:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_matt
+      button_right_x3:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_matt
+      button_up_x1:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: 20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+      button_down_x1:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: -20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+      button_up_x2:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dim_lights
+        metadata: {}
+      button_up_x3:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_on_full_3
+        metadata: {}
+      button_down_x2:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.very_dim
+        metadata: {}
+      button_down_x3:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_off_3
+        metadata: {}
+- id: '1676523772368'
+  alias: 11 Turn on inverter in the AM
   description: ''
   trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
-    type: action
-    subtype: play_pause
-    discovery_id: 0xec1bbdfffe396b76 action_play_pause
+  - platform: time
+    at: 05:20:00
   condition: []
   action:
-  - service: light.toggle
+  - service: switch.turn_on
     data: {}
     target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
+      entity_id: switch.inverter
   mode: single
-- id: '1653440901275'
-  alias: Wheel Double Tap
+- id: '1700699675793'
+  alias: Button Lights
   description: ''
   trigger:
   - platform: device
     domain: mqtt
-    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    device_id: 0bb108fd3aa04e6039041b4bfa00cca0
     type: action
-    subtype: skip_forward
-    discovery_id: 0xec1bbdfffe396b76 action_skip_forward
-  condition: []
-  action:
-  - service: scene.turn_on
-    target:
-      entity_id: scene.lights_on_full_3
-    metadata: {}
-  mode: single
-- id: '1653440935233'
-  alias: Wheel Triple Tap
-  description: ''
-  trigger:
+    subtype: single
+    discovery_id: 0xa4c138dfefa1a393 action_single
+    id: Single
   - platform: device
     domain: mqtt
-    device_id: 2af505a102de914e4b3fc1eb60cc6f5f
+    device_id: 0bb108fd3aa04e6039041b4bfa00cca0
     type: action
-    subtype: skip_backward
-    discovery_id: 0xec1bbdfffe396b76 action_skip_backward
+    subtype: double
+    discovery_id: 0xa4c138dfefa1a393 action_double
+    id: Double
   condition: []
   action:
-  - service: scene.turn_on
-    target:
-      entity_id: scene.dim_lights
-    metadata: {}
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Single
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_on_full_3
+        metadata: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - Double
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.lights_off_3
+        metadata: {}
   mode: single
+- id: '1707177604331'
+  alias: Motion Lights based on time of day
+  description: ''
+  use_blueprint:
+    path: Aleks130699/motion_light_brightness.yaml
+    input:
+      motion_entity: binary_sensor.motion_sensor_occupancy
+      light_target:
+        entity_id: light.front_light
+      no_motion_wait_night: 90
+      on_night_time: '21:00:00'
+      off_night_time: 08:55:00
+      day_brightness: 100
+      night_brightness: 10
+      no_motion_wait_day: 600

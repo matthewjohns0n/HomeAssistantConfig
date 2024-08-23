@@ -11,7 +11,8 @@ logger:
 api:
 
 ota:
-  password: !secret lights_esp_ota_password
+  - platform: esphome
+    password: !secret lights_esp_ota_password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -59,12 +60,20 @@ light:
   - platform: monochromatic
     name: "Bed Light Matt"
     output: pwm12
+    id: bed_light_matt
   - platform: monochromatic
     name: "Bed Light Chelsea"
     output: pwm14
+    id: bed_light_chelsea
   - platform: monochromatic
     name: "Hallway Light"
     output: pwm4
+    id: hallway_light
   - platform: monochromatic
-    name: "Closet Light"
+    name: "Front Light"
     output: pwm5
+    id: front_light
+
+web_server:
+  port: 80
+

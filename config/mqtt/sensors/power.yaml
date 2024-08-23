@@ -4,7 +4,7 @@
 
 - name: "Solar Voltage"
   unique_id: sensor_solar_voltage
-  state_topic: "venus-home/N/b827ebb94e80/solarcharger/289/Pv/V"
+  state_topic: "venus-home/N/b827ebb94e80/solarcharger/290/Pv/V"
   unit_of_measurement: 'V'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:solar-panel
@@ -13,13 +13,13 @@
 
 - name: "Solar Current"
   unique_id: sensor_solar_current
-  state_topic: "venus-home/N/b827ebb94e80/solarcharger/289/Pv/I"
+  state_topic: "venus-home/N/b827ebb94e80/solarcharger/290/Pv/I"
   unit_of_measurement: 'A'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:solar-power
   device_class: current
   state_class: measurement
-  
+
 - name: "Solar Power"
   unique_id: sensor_solar_power
   state_topic: "venus-home/N/b827ebb94e80/system/0/Dc/Pv/Power"
@@ -50,10 +50,10 @@
   state_class: measurement
 
 # This topic contains other things like F (hz), I (amps), V (volts)
-# venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/#
+# venus-home/N/b827ebb94e80/vebus/290/Ac/ActiveIn/#
 - name: "Shore Power In"
   unique_id: sensor_shore_power_in
-  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Ac/ActiveIn/P"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/290/Ac/ActiveIn/P"
   unit_of_measurement: 'W'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   icon: mdi:power-plug
@@ -62,7 +62,7 @@
 
 - name: "Inverter Mode"
   unique_id: sensor_inverter_mode
-  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Mode"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/290/Mode"
   icon: mdi:power-plug
   value_template: "{{ value_json.value | int }}"
 
@@ -167,7 +167,7 @@
 
 - name: "Multiplus Temperature"
   unique_id: sensor_multiplus_temperature
-  state_topic: "venus-home/N/b827ebb94e80/vebus/289/Dc/0/Temperature"
+  state_topic: "venus-home/N/b827ebb94e80/vebus/290/Dc/0/Temperature"
   unit_of_measurement: '°C'
   value_template: "{{ value_json.value | float(0) | round(2) }}"
   device_class: temperature
