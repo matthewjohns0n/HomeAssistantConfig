@@ -1,15 +1,3 @@
-# Get battery info on boot
-- id: 'RefreshVictronMQTT-boot'
-  alias: Refresh MQTT Victron on boot
-  description: Request the data on the MQTT server
-  trigger:
-  - platform: homeassistant
-    event: start
-  action:
-  - service: mqtt.publish
-    data:
-      topic: venus-home/R/b827ebb94e80/system/0/Serial
-  mode: single
 
 # Get battery info on boot
 - id: 'RefreshVictronMQTT-30seconds'
