@@ -29,15 +29,14 @@ light: !include config/light.yaml
 
 # Include config settings:
 tts: !include config/settings/tts.yaml
-influxdb: !include config/settings/influxdb.yaml
 
 # For automations created in the UI
 automation ui: !include automations.yaml
 scene ui: !include scenes.yaml
 script ui: !include scripts.yaml
 
-camera:
-  - platform: ffmpeg
-    name: cam
-    input: /dev/video0
+# camera:
+#   - platform: ffmpeg
+#     name: cam
+#     input: /dev/video0
 

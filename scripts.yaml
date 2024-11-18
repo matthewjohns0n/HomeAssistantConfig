@@ -1,0 +1,117 @@
+toggle_charger:
+  alias: Toggle Charger
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '1'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          qos: '0'
+          retain: false
+          payload: '{"value": 4}'
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          evaluate_payload: false
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '2'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 3}'
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '3'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 2}'
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '4'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 1}'
+  mode: single
+  icon: mdi:power-plug
+
+toggle_inverter:
+  alias: Toggle Inverter
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '1'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          qos: '0'
+          retain: false
+          payload: '{"value": 3}'
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          evaluate_payload: false
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '2'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 4}'
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '3'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 1}'
+    - conditions:
+      - condition: state
+        entity_id: sensor.inverter_mode
+        state: '4'
+      sequence:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: venus-home/N/b827ebb94e80/vebus/290/Mode
+          payload: '{"value": 2}'
+  mode: queued
+  icon: mdi:power-plug

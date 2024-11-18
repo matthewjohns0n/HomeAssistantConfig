@@ -37,7 +37,7 @@
     below: 75
   condition: []
   action:
-  - service: notify.mobile_app_matt_s_phone
+  - service: notify.mobile_app_matt_s_phone_s22
     data:
       title: Tire Pressure is getting low!
       message: '{{ trigger.entity_id }}, Date {{ now().strftime(''%Y-%m-%d'') }},
@@ -54,205 +54,86 @@
     domain: binary_sensor
   condition: []
   action:
-  - service: notify.mobile_app_matt_s_phone
+  - service: notify.mobile_app_matt_s_phone_s22
     data:
       message: Water sensor is wet!
       title: Warning
   mode: single
-- id: '1647483395473'
-  alias: Lights on back
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.remote_back_action
-    to: brightness_up_hold
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      transition: 7
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
-- id: '1647483394123'
-  alias: Lights off back
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.remote_back_action
-    to: brightness_down_hold
-  condition: []
-  action:
-  - service: light.turn_off
-    data:
-      transition: 7
-    target:
-      entity_id:
-      - light.bed_light_matt
-      - light.bed_light_chelsea
-      - light.hallway_light
-  mode: single
-- id: 164748339432Af
-  alias: Remote - Inverter Toggle
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.remote_back_action
-    to: toggle
-  condition: []
-  action:
-  - service: switch.toggle
-    data: {}
-    target:
-      entity_id: switch.inverter
-  mode: single
-- id: '1651985254516'
-  alias: Matt lights up
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: arrow_right_click
-    discovery_id: 0x2c1165fffecaf002 action_arrow_right_click
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step: 25
-    target:
-      entity_id: light.bed_light_matt
-  mode: single
-- id: '1651985340389'
-  alias: Matt Light Down
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 72016eb7fc7eb4e8b691eab072560377
-    type: action
-    subtype: arrow_left_click
-    discovery_id: 0x2c1165fffecaf002 action_arrow_left_click
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness_step: -25
-    target:
-      entity_id: light.bed_light_matt
-  mode: single
-- id: '1652164968945'
-  alias: Lights Full
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - input_button.lights_full
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness: 255
-    target:
-      entity_id:
-      - light.hallway_light
-      - light.bed_light_matt
-      - light.bed_light_chelsea
-  mode: single
-- id: '1652165079553'
-  alias: Lights Off
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - input_button.lights_off
-  condition: []
-  action:
-  - service: light.turn_off
-    data: {}
-    target:
-      entity_id:
-      - light.bed_light_chelsea
-      - light.bed_light_matt
-      - light.hallway_light
-  mode: single
 - id: '1652888665810'
   alias: Notify Test
   description: ''
-  trigger:
-  - platform: sun
-    event: sunset
+  triggers:
+  - event: sunset
     offset: 0
-  condition: []
-  action:
-  - service: notify.mobile_app_matt_s_phone
-    data:
-      message: Sunset!
+    trigger: sun
+  conditions: []
+  actions:
+  - action: notify.mobile_app_matt_s_phone_s22
+    data: {}
   mode: single
 - id: '1669434786917'
-  alias: Inverter Timer
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  alias: Set inverter timer to auto turn off inverter
+  description: 'Turns on the inverter if it is not already on. Then it starts a 30-minute
+    timer. When the timer runs out, it will turn the inverter off. '
+  triggers:
+  - entity_id:
     - input_boolean.inverter_timer
     from: 'off'
     to: 'on'
     id: inverter-timer-on
-  - platform: event
-    event_type: timer.finished
+    trigger: state
+  - event_type: timer.finished
     event_data:
       entity_id: timer.inverter_timer
     id: inverter-timer-finished
-  - platform: state
-    entity_id:
+    trigger: event
+  - entity_id:
     - input_boolean.inverter_timer
     from: 'on'
     to: 'off'
     id: inverter-timer-off
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: inverter-timer-on
       sequence:
-      - service: switch.turn_on
-        data: {}
+      - data: {}
         target:
-          entity_id: switch.inverter
-      - service: timer.start
-        data: {}
+          entity_id:
+          - switch.inverter_switch
+        action: switch.turn_on
+      - data: {}
         target:
           entity_id: timer.inverter_timer
+        action: timer.start
     - conditions:
       - condition: trigger
         id: inverter-timer-off
       sequence:
-      - service: timer.pause
-        data: {}
+      - data: {}
         target:
           entity_id: timer.inverter_timer
-      - service: timer.cancel
-        data: {}
+        action: timer.pause
+      - data: {}
         target:
           entity_id: timer.inverter_timer
+        action: timer.cancel
     - conditions:
       - condition: trigger
         id: inverter-timer-finished
       sequence:
-      - service: switch.turn_off
-        data: {}
+      - data: {}
         target:
-          entity_id: switch.inverter
-      - service: input_boolean.toggle
-        data: {}
+          entity_id:
+          - switch.inverter_switch
+        action: switch.turn_off
+      - data: {}
         target:
           entity_id: input_boolean.inverter_timer
+        action: input_boolean.toggle
   mode: single
 - id: '1669436419986'
   alias: Adjust Heater Temperature Schedule
@@ -316,240 +197,151 @@
     input:
       remote: sensor.remote_back_action
       button_center_x1:
-      - service: switch.toggle
-        data: {}
+      - data: {}
         target:
           entity_id: switch.inverter
+        action: switch.toggle
       button_center_x1_immediate: []
       button_center_x2:
-      - service: input_boolean.toggle
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.inverter_timer
+        action: input_boolean.toggle
       button_left_x1:
-      - service: light.toggle
-        data: {}
+      - data: {}
         target:
           entity_id: light.bed_light_chelsea
+        action: light.toggle
       button_center_x3:
-      - service: light.toggle
-        data: {}
+      - data: {}
         target:
           entity_id: light.hallway_light
+        action: light.toggle
       button_right_x1:
-      - service: light.toggle
-        data: {}
+      - data: {}
         target:
           entity_id: light.bed_light_matt
+        action: light.toggle
       button_left_x2:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: 34
         target:
           entity_id: light.bed_light_chelsea
+        action: light.turn_on
       button_left_x3:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: -34
         target:
           entity_id: light.bed_light_chelsea
+        action: light.turn_on
       button_right_x2:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: 34
         target:
           entity_id: light.bed_light_matt
+        action: light.turn_on
       button_right_x3:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: -34
         target:
           entity_id: light.bed_light_matt
+        action: light.turn_on
       button_up_x1:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: 20
         target:
           entity_id:
           - light.bed_light_chelsea
           - light.bed_light_matt
           - light.hallway_light
+          - light.front_light
+        action: light.turn_on
       button_down_x1:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_step_pct: -20
         target:
           entity_id:
           - light.bed_light_chelsea
           - light.bed_light_matt
           - light.hallway_light
+          - light.front_light
+        action: light.turn_on
       button_up_x2:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.dim_lights
         metadata: {}
+        action: scene.turn_on
       button_up_x3:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.lights_on_full_3
         metadata: {}
+        action: scene.turn_on
       button_down_x2:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.very_dim
         metadata: {}
+        action: scene.turn_on
       button_down_x3:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.lights_off_3
         metadata: {}
-- id: '1675897172627'
-  alias: IKEA Matt
-  description: ''
-  use_blueprint:
-    path: malorezzanzo64/z2m-ikea-tradfri-5-button-remote-double-and-triple-clicks.yaml
-    input:
-      remote: sensor.remote_front_action
-      button_center_x1:
-      - service: switch.toggle
-        data: {}
-        target:
-          entity_id: switch.inverter
-      button_center_x1_immediate: []
-      button_center_x2:
-      - service: input_boolean.toggle
-        data: {}
-        target:
-          entity_id: input_boolean.inverter_timer
-      button_left_x1:
-      - service: light.toggle
-        data: {}
-        target:
-          entity_id: light.bed_light_chelsea
-      button_center_x3:
-      - service: light.toggle
-        data: {}
-        target:
-          entity_id: light.hallway_light
-      button_right_x1:
-      - service: light.toggle
-        data: {}
-        target:
-          entity_id: light.bed_light_matt
-      button_left_x2:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: 34
-        target:
-          entity_id: light.bed_light_chelsea
-      button_left_x3:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: -34
-        target:
-          entity_id: light.bed_light_chelsea
-      button_right_x2:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: 34
-        target:
-          entity_id: light.bed_light_matt
-      button_right_x3:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: -34
-        target:
-          entity_id: light.bed_light_matt
-      button_up_x1:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: 20
-        target:
-          entity_id:
-          - light.bed_light_chelsea
-          - light.bed_light_matt
-          - light.hallway_light
-      button_down_x1:
-      - service: light.turn_on
-        data:
-          brightness_step_pct: -20
-        target:
-          entity_id:
-          - light.bed_light_chelsea
-          - light.bed_light_matt
-          - light.hallway_light
-      button_up_x2:
-      - service: scene.turn_on
-        target:
-          entity_id: scene.dim_lights
-        metadata: {}
-      button_up_x3:
-      - service: scene.turn_on
-        target:
-          entity_id: scene.lights_on_full_3
-        metadata: {}
-      button_down_x2:
-      - service: scene.turn_on
-        target:
-          entity_id: scene.very_dim
-        metadata: {}
-      button_down_x3:
-      - service: scene.turn_on
-        target:
-          entity_id: scene.lights_off_3
-        metadata: {}
+        action: scene.turn_on
 - id: '1676523772368'
-  alias: 11 Turn on inverter in the AM
-  description: ''
-  trigger:
-  - platform: time
-    at: 05:20:00
-  condition: []
-  action:
-  - service: switch.turn_on
-    data: {}
+  alias: Turn on inverter in the AM
+  description: Every morning, turn the inverter on at a certain time. This is designed
+    to turn on starlink before I wake up so it has time to boot.
+  triggers:
+  - at: 05:20:00
+    trigger: time
+  conditions: []
+  actions:
+  - data: {}
     target:
-      entity_id: switch.inverter
+      entity_id:
+      - switch.inverter_switch
+    action: switch.turn_on
   mode: single
 - id: '1700699675793'
-  alias: Button Lights
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
+  alias: Front Button Lights
+  description: 'Single Press - All on
+
+    Double Press - All off'
+  triggers:
+  - domain: mqtt
     device_id: 0bb108fd3aa04e6039041b4bfa00cca0
     type: action
     subtype: single
     discovery_id: 0xa4c138dfefa1a393 action_single
     id: Single
-  - platform: device
-    domain: mqtt
+    trigger: device
+  - domain: mqtt
     device_id: 0bb108fd3aa04e6039041b4bfa00cca0
     type: action
     subtype: double
     discovery_id: 0xa4c138dfefa1a393 action_double
     id: Double
-  condition: []
-  action:
+    trigger: device
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id:
         - Single
       sequence:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.lights_on_full_3
         metadata: {}
+        action: scene.turn_on
     - conditions:
       - condition: trigger
         id:
         - Double
       sequence:
-      - service: scene.turn_on
-        target:
+      - target:
           entity_id: scene.lights_off_3
         metadata: {}
+        action: scene.turn_on
   mode: single
 - id: '1707177604331'
   alias: Motion Lights based on time of day
@@ -566,3 +358,130 @@
       day_brightness: 100
       night_brightness: 10
       no_motion_wait_day: 600
+- id: '1731909849425'
+  alias: BOOT  - Start Z2M after boot
+  description: ''
+  triggers:
+  - trigger: homeassistant
+    event: start
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - action: hassio.addon_start
+    metadata: {}
+    data:
+      addon: 45df7312_zigbee2mqtt
+  mode: single
+- id: '1731913833397'
+  alias: Matt IKEA Remote
+  description: ''
+  use_blueprint:
+    path: malorezzanzo64/z2m-ikea-tradfri-5-button-remote-double-and-triple-clicks.yaml
+    input:
+      remote: sensor.remote_front_action
+      button_center_x1:
+      - data: {}
+        target:
+          entity_id: switch.inverter
+        action: switch.toggle
+      button_center_x1_immediate: []
+      button_center_x2:
+      - data: {}
+        target:
+          entity_id: input_boolean.inverter_timer
+        action: input_boolean.toggle
+      button_left_x1:
+      - data: {}
+        target:
+          entity_id: light.bed_light_chelsea
+        action: light.toggle
+      button_center_x3:
+      - data: {}
+        target:
+          entity_id: light.hallway_light
+        action: light.toggle
+      button_right_x1:
+      - data: {}
+        target:
+          entity_id: light.bed_light_matt
+        action: light.toggle
+      button_left_x2:
+      - data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_chelsea
+        action: light.turn_on
+      button_left_x3:
+      - data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_chelsea
+        action: light.turn_on
+      button_right_x2:
+      - data:
+          brightness_step_pct: 34
+        target:
+          entity_id: light.bed_light_matt
+        action: light.turn_on
+      button_right_x3:
+      - data:
+          brightness_step_pct: -34
+        target:
+          entity_id: light.bed_light_matt
+        action: light.turn_on
+      button_up_x1:
+      - data:
+          brightness_step_pct: 20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+          - light.front_light
+        action: light.turn_on
+      button_down_x1:
+      - data:
+          brightness_step_pct: -20
+        target:
+          entity_id:
+          - light.bed_light_chelsea
+          - light.bed_light_matt
+          - light.hallway_light
+          - light.front_light
+        action: light.turn_on
+      button_up_x2:
+      - target:
+          entity_id: scene.dim_lights
+        metadata: {}
+        action: scene.turn_on
+      button_up_x3:
+      - target:
+          entity_id: scene.lights_on_full_3
+        metadata: {}
+        action: scene.turn_on
+      button_down_x2:
+      - target:
+          entity_id: scene.very_dim
+        metadata: {}
+        action: scene.turn_on
+      button_down_x3:
+      - target:
+          entity_id: scene.lights_off_3
+        metadata: {}
+        action: scene.turn_on
+- id: '1731972220945'
+  alias: BOOT - Refresh MQTT Victron on boot
+  description: Request the data on the MQTT server
+  triggers:
+  - event: start
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - data:
+      topic: venus-home/R/b827ebb94e80/system/0/Serial
+    action: mqtt.publish
+  mode: single
